@@ -11,16 +11,12 @@ private:
     int anomalyStability;
 
 public:
-    Anomaly(int anomaly_id, std::string anomaly_name, int starting_stability)
-        : anomalyId(anomaly_id),
-        anomalyName(anomaly_name),
-        anomalyStability(std::clamp(starting_stability, 0, 100))
-    {
-    }
-
+    // dafault constructor
+    Anomaly(int anomaly_id, std::string anomaly_name, int starting_stability);
+    // display
     void displayInfo() const;
+    // adjustment setters
     void adjustStability(int change_amount);
-
     // getters
     int getStability() const;
     int getAnomalyId() const;

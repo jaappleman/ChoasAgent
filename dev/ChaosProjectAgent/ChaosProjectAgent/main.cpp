@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Helper.h"
 #include "Anomaly.h"
+#include "Facility.h"
 
 int main()
 {
@@ -44,6 +45,38 @@ int main()
 	std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << Helper::RESET << std::endl;
 	std::cout << "\n\nThings are about to get really, really weird. Welcome to " << Helper::ORANGE << "Anomaly//Containment" << Helper::RESET << ".\n\n";
 
+	Facility facility;
+
+	facility.displayStatus();
+	facility.displayAnomalies();
+
+	Anomaly* selected_anomaly = facility.findAnomalyById(2);
+
+	if (selected_anomaly != nullptr)
+	{
+		std::cout << "\nAnomaly successfully located!\n\n";
+		selected_anomaly->adjustStability(-15);
+		selected_anomaly->displayInfo();
+	}
+	else
+	{
+		std::cout << "\nAnomaly not found.\n";
+	}
+	std::cout << "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+	std::cout << "\nTesting daily consumption and effects of anomaly instability\n\n";
+
+	for (int day = 0; day < 6; day++)
+	{
+		facility.advanceDay();
+
+		std::cout << "Day: " << facility.getCurrentDay()
+			<< " | Power: " << facility.getPower() << " | Stability: " << facility.getFacilityStability() << "%\n";
+	}
+	std::cout << "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n";
+
+	return 0;
+	
+	/* this is the testing for the Anomaly class prior to creating Facility class
 	Anomaly anomaly_one(1, "Whispering Archive", 85);
 	Anomaly anomaly_two(2, "Shifting Corridor", 55);
 	Anomaly anomaly_three(3, "Forgotten Signal", 20);
@@ -71,29 +104,7 @@ int main()
 
 	anomaly_three.displayInfo();
 	std::cout << "Status: " << anomaly_three.getStatus() << "\n\n";
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
+	*/
 
 
 
