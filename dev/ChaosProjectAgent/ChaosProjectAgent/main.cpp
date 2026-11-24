@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Helper.h"
+#include "Anomaly.h"
 
 int main()
 {
@@ -41,10 +42,35 @@ int main()
 	std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 	std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 	std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << Helper::RESET << std::endl;
+	std::cout << "\n\nThings are about to get really, really weird. Welcome to " << Helper::ORANGE << "Anomaly//Containment" << Helper::RESET << ".\n\n";
 
+	Anomaly anomaly_one(1, "Whispering Archive", 85);
+	Anomaly anomaly_two(2, "Shifting Corridor", 55);
+	Anomaly anomaly_three(3, "Forgotten Signal", 20);
 
+	anomaly_one.displayInfo();
+	std::cout << "Status: " << anomaly_one.getStatus() << "\n\n";
 
+	anomaly_two.displayInfo();
+	std::cout << "Status: " << anomaly_two.getStatus() << "\n\n";
 
+	anomaly_three.displayInfo();
+	std::cout << "Status: " << anomaly_three.getStatus() << "\n\n";
+
+	std::cout << "\n--- STABILITY ADJUSTMENT TEST ---\n";
+
+	anomaly_one.adjustStability(-20);
+	anomaly_two.adjustStability(30);
+	anomaly_three.adjustStability(-50);
+
+	anomaly_one.displayInfo();
+	std::cout << "Status: " << anomaly_one.getStatus() << "\n\n";
+
+	anomaly_two.displayInfo();
+	std::cout << "Status: " << anomaly_two.getStatus() << "\n\n";
+
+	anomaly_three.displayInfo();
+	std::cout << "Status: " << anomaly_three.getStatus() << "\n\n";
 
 
 

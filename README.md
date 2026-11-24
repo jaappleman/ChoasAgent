@@ -1,30 +1,20 @@
 # 🚀 Welcome to Project & Portfolio!
 
-This repository will be used to keep track of research and development conducted in this class. Follow the instructions below to get started.
-cos
-### Getting Started
+Joshua Appleman: Chaos Project Agent (working title)
 
-**1.** Review the [About](./docs/01_about/README.md) README and all of the links it provides.
+## **ANOMALY // CONTAINMENT**
 
-**2.** Review the documentation and [Getting Started](./docs/02_getting_started/README.md) steps in this repository's docs folder.
+_Facility Management Simulation_
 
-**3.** Attend the first Live Lecture to see a live setup demo. If you are unable to attend, make sure to watch the archive.
+You are the director of a classified research facility responsible for monitoring fictional anomalies, managing facility resources, conducting research, and responding to unpredictable incidents.
 
-### Next Steps...
-
-After completing the above steps, feel free to begin updating this readme where indicated below. Remember to update this document each week to receive proper credit for the weekly Milestone assignment.
-
-<br>
-
-> ❗️ &nbsp; Now that you have read to this point, go ahead and delete this sentence and everything above it.
-
-<br>
+Every decision affects the facility. Random events can disrupt operations, create new challenges, or provide unexpected opportunities.
 
 # Project & Portfolio 1
 
 ### Student First & Last Name
 
-Hello my name is [enter name]. I am a student from [where are you from?]. The purpose of this repository is to practice development using version control. This work will help me begin to build a portfolio of skills and accomplishment that can be shared in the future.
+Hello my name is [Joshua Appleman]. I am a student from [Akron, Ohio]. The purpose of this repository is to practice development using version control. This work will help me begin to build a portfolio of skills and accomplishment that can be shared in the future.
 
 <br>
 
@@ -33,14 +23,37 @@ Hello my name is [enter name]. I am a student from [where are you from?]. The pu
 Each week I will summarize my milestone activity and progress by writing a stand-up. A stand-up is meant to be a succinct update on how things are going. Use these prompts as a guide on what to write about:
 
 ⚙️ Overview - What I worked on this past week
-<br>
+<br>Brainstormed the concept and mechanics of my game. Developed a plan for how I will approach development each week. Set up my github project to 
+
 🌵 Challenges - What problems did I have & how I'm addressing them
-<br>
+<br>I know my largest issue will be keeping scope creep in check as I build and develop. As with my text-based RPG, the scope kept growing and growing as I thought of more and more mechanics and concepts to implement into the design. I will keep this is check my focusing on the core build first to make it strong and functional before getting distracted by all the bright and oh so shineys.
+
 🏆 Accomplishments - What is something I "leveled up" on this week
 <br>
 🔮 Next Steps - What I plan to prioritize and do next
 
-<br>
+I will build my four base classes and make them functional. Complete the menu and base loop for the game. Create a few basic instances of each for testing. User input will be implemented next week so I will build a functional test loop that will autorun to test functionality and outputs.
+# The plan for this week of building a functional foundation to the program:
+
+**Phase 1: Project creation**
+
+Set up the C++ Console App in Visual Studio, establish the folder structure, and initialize GitHub development workflow.
+
+**Phase 2: Class architecture**
+
+Create the first classes (Game, Facility, Anomaly, EventSystem) and separate their responsibilities into `.h` and `.cpp` files.
+
+**Phase 3: Working menu**
+
+Build the main menu, navigation, input validation, and a persistent program loop.
+
+**Phase 4: First simulation mechanics**
+
+Introduce facility stats, a few anomalies, and my first simple functional system.
+
+**Phase 5: GitHub & milestone preparation**
+
+Create Issues, update Project board, commit work progressively, document the project, and prepare Milestone 1 pull request.
 
 ### Week 1
 
