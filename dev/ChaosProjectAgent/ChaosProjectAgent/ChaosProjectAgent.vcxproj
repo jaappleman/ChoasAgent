@@ -24,7 +24,7 @@
     <ProjectGuid>{49f65be8-c658-476f-a455-ab6a30ff93a5}</ProjectGuid>
     <RootNamespace>ChaosProjectAgent</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>ChaosProject</ProjectName>
+    <ProjectName>anomalyContainment</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -1,4 +1,5 @@
 #include "Staff.h"
+#include "Helper.h"
 #include <iostream>
 #include <algorithm>
 // constructor
@@ -54,6 +55,41 @@ void Staff::displayInfo() const
     std::cout << "Name: " << staffName << '\n';
     std::cout << "Hiring Cost: " << hiringCost << " Credits\n";
     std::cout << "Skill Level: " << skillLevel << '\n';
+    std::cout << "Staff Condition: " << staffCondition << "%\n";
+    // Display a visual representation of staff condition.
+    const int bar_width = 20;
+    int filled_blocks = staffCondition * bar_width / 100;
+    // Select a display color based on staff condition.
+    
+    std::cout << "Condition: [";
+    if (staffCondition >= 80)
+    {
+        std::cout << Helper::GREEN; // Green
+    }
+    else if (staffCondition >= 50)
+    {
+        std::cout << Helper::YELLOW; // Yellow
+    }
+    else if (staffCondition >= 25)
+    {
+        std::cout << Helper::ORANGE; // Orange
+    }
+    else
+    {
+        std::cout << Helper::BLINK << Helper::SCARLET; // Red
+    }
+    for (int i = 0; i < bar_width; ++i)
+    {
+        if (i < filled_blocks)
+        {
+            std::cout << '#';
+        }
+        else
+        {
+            std::cout << ' ';
+        }
+    }
 
+    std::cout << Helper::RESET << "]\n";
     std::cout << "==================================\n";
 }

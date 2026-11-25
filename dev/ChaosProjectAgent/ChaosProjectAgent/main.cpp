@@ -1,4 +1,6 @@
+#include <string>
 #include <iostream>
+#include <memory>
 #include "Helper.h"
 #include "Anomaly.h"
 #include "Facility.h"
@@ -12,6 +14,9 @@
 void testAnomalyMaintenance(int& tests_passed, int& tests_failed);
 void testResearchSystem(int& tests_passed, int& tests_failed);
 
+// Staff roster tests
+void testStaffRoster(int& tests_passed, int& tests_failed);
+
 // Staff specialization tests
 void testResearcher(int& tests_passed, int& tests_failed);
 void testTechnician(int& tests_passed, int& tests_failed);
@@ -20,7 +25,12 @@ void testSecurityOfficer(int& tests_passed, int& tests_failed);
 void testMedicalOfficer(int& tests_passed, int& tests_failed);
 
 // Test utility
-void recordTestResult(bool test_passed, int& tests_passed, int& tests_failed);
+void recordTestResult(
+	bool test_passed,
+	const std::string& test_name,
+	int& tests_passed,
+	int& tests_failed
+);
 
 int main()
 {
@@ -43,12 +53,14 @@ int main()
 	int tests_passed = 0;
 	int tests_failed = 0;
 
+
 	// ==========================================
 	//           FACILITY SYSTEM TESTS
 	// ==========================================
 
 	testAnomalyMaintenance(tests_passed, tests_failed);
 	testResearchSystem(tests_passed, tests_failed);
+	testStaffRoster(tests_passed, tests_failed);
 
 
 	// ==========================================
@@ -66,11 +78,23 @@ int main()
 	//                TEST SUMMARY
 	// ==========================================
 
+	int total_tests = tests_passed + tests_failed;
+
 	std::cout << "\n========== TEST SUMMARY ==========\n";
 	std::cout << "Tests Passed: " << tests_passed << '\n';
 	std::cout << "Tests Failed: " << tests_failed << '\n';
 	std::cout << "Total Tests: " << tests_passed + tests_failed << '\n';
+	// Determines the overall test suite outcome based on failed test count.
+	std::cout << "Overall Result: "
+		<< (tests_failed == 0 ? "ALL TESTS PASSED" : "FAILURES DETECTED")
+		<< '\n';
 	std::cout << "==================================\n";
+
+	
+
+	// ==========================================
+	//             PROGRAM EXIT
+	// ==========================================
 
 	return 0;
 }
@@ -81,6 +105,7 @@ void testAnomalyMaintenance(int& tests_passed, int& tests_failed)
 
 	bool test_passed = false;
 
+
 	// --------------------------------------------------
 	// SUCCESSFUL MAINTENANCE
 	// Verify that maintenance deducts the correct resources
@@ -89,160 +114,280 @@ void testAnomalyMaintenance(int& tests_passed, int& tests_failed)
 
 	Facility facility;
 
-	std::cout << "Credits Before: " << facility.getCredits() << '\n';
-	std::cout << "Power Before: " << facility.getPower() << '\n';
-
-	bool success = facility.performAnomalyMaintenance(3, 25);
-
 	Anomaly* anomaly = facility.findAnomalyById(3);
 
-	test_passed = success
+	int credits_before = facility.getCredits();
+	int power_before = facility.getPower();
+	int stability_before = anomaly != nullptr
+		? anomaly->getStability()
+		: -1;
+
+	bool maintenance_success = facility.performAnomalyMaintenance(3, 25);
+
+	test_passed = maintenance_success
 		&& anomaly != nullptr
-		&& facility.getCredits() == 450
-		&& facility.getPower() == 90
-		&& anomaly->getStability() == 45;
+		&& facility.getCredits() == credits_before - 50
+		&& facility.getPower() == power_before - 10
+		&& anomaly->getStability() == stability_before + 25;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
+	recordTestResult(
+		test_passed,
+		"Successful Maintenance",
+		tests_passed,
+		tests_failed
+	);
 
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Successful Maintenance\n";
+	std::cout << "Maintenance Successful: "
+		<< maintenance_success << '\n';
 
-	std::cout << "Maintenance Successful: " << success << '\n';
-	std::cout << "Credits After: " << facility.getCredits() << '\n';
-	std::cout << "Power After: " << facility.getPower() << '\n';
+	std::cout << "Credits: "
+		<< credits_before << " -> " << facility.getCredits() << '\n';
 
-	facility.displayAnomalies();
+	std::cout << "Power: "
+		<< power_before << " -> " << facility.getPower() << '\n';
+
+	if (anomaly != nullptr)
+	{
+		std::cout << "Anomaly Stability: "
+			<< stability_before << " -> "
+			<< anomaly->getStability() << '\n';
+	}
+
 
 
 	// --------------------------------------------------
 	// INSUFFICIENT CREDITS
 	// Verify that maintenance fails when the Facility
-	// cannot afford it, without deducting any resources.
+	// cannot afford it, without changing any resources
+	// or anomaly stability.
 	// --------------------------------------------------
 
 	std::cout << "\n--- INSUFFICIENT CREDITS TEST ---\n";
 
 	Facility poor_facility;
 
+	// Reduce available credits below the maintenance cost.
 	poor_facility.adjustCredits(-470);
-
-	bool poor_success = poor_facility.performAnomalyMaintenance(3, 25);
 
 	Anomaly* poor_anomaly = poor_facility.findAnomalyById(3);
 
-	test_passed = !poor_success
+	int poor_credits_before = poor_facility.getCredits();
+	int poor_power_before = poor_facility.getPower();
+
+	int poor_stability_before = poor_anomaly != nullptr
+		? poor_anomaly->getStability()
+		: -1;
+
+	bool poor_maintenance_success =
+		poor_facility.performAnomalyMaintenance(3, 25);
+
+	test_passed = !poor_maintenance_success
 		&& poor_anomaly != nullptr
-		&& poor_facility.getCredits() == 30
-		&& poor_facility.getPower() == 100
-		&& poor_anomaly->getStability() == 20;
+		&& poor_facility.getCredits() == poor_credits_before
+		&& poor_facility.getPower() == poor_power_before
+		&& poor_anomaly->getStability() == poor_stability_before;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
+	recordTestResult(
+		test_passed,
+		"Insufficient Credits",
+		tests_passed,
+		tests_failed
+	);
 
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Insufficient Credits\n";
+	std::cout << "Maintenance Successful: "
+		<< poor_maintenance_success << '\n';
 
-	std::cout << "Credits After: " << poor_facility.getCredits() << '\n';
-	std::cout << "Maintenance Successful: " << poor_success << '\n';
+	std::cout << "Credits: "
+		<< poor_credits_before << " -> "
+		<< poor_facility.getCredits() << '\n';
+
+	std::cout << "Power: "
+		<< poor_power_before << " -> "
+		<< poor_facility.getPower() << '\n';
+
+	if (poor_anomaly != nullptr)
+	{
+		std::cout << "Anomaly Stability: "
+			<< poor_stability_before << " -> "
+			<< poor_anomaly->getStability() << '\n';
+	}
+
+
 
 
 	// --------------------------------------------------
 	// INSUFFICIENT POWER
 	// Verify that maintenance fails when the Facility
-	// does not have enough power, preserving all resources.
+	// lacks sufficient power, preserving all values.
 	// --------------------------------------------------
 
 	std::cout << "\n--- INSUFFICIENT POWER TEST ---\n";
 
 	Facility low_power_facility;
 
+	// Reduce available power below the maintenance cost.
 	low_power_facility.adjustPower(-95);
 
-	bool power_success = low_power_facility.performAnomalyMaintenance(3, 25);
+	Anomaly* low_power_anomaly =
+		low_power_facility.findAnomalyById(3);
 
-	Anomaly* low_power_anomaly = low_power_facility.findAnomalyById(3);
+	int low_power_credits_before = low_power_facility.getCredits();
+	int low_power_before = low_power_facility.getPower();
 
-	test_passed = !power_success
+	int low_power_stability_before = low_power_anomaly != nullptr
+		? low_power_anomaly->getStability()
+		: -1;
+
+	bool low_power_maintenance_success =
+		low_power_facility.performAnomalyMaintenance(3, 25);
+
+	test_passed = !low_power_maintenance_success
 		&& low_power_anomaly != nullptr
-		&& low_power_facility.getCredits() == 500
-		&& low_power_facility.getPower() == 5
-		&& low_power_anomaly->getStability() == 20;
+		&& low_power_facility.getCredits() == low_power_credits_before
+		&& low_power_facility.getPower() == low_power_before
+		&& low_power_anomaly->getStability() == low_power_stability_before;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
+	recordTestResult(
+		test_passed,
+		"Insufficient Power",
+		tests_passed,
+		tests_failed
+	);
 
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Insufficient Power\n";
+	std::cout << "Maintenance Successful: "
+		<< low_power_maintenance_success << '\n';
 
-	std::cout << "Credits After: " << low_power_facility.getCredits() << '\n';
-	std::cout << "Power After: " << low_power_facility.getPower() << '\n';
-	std::cout << "Maintenance Successful: " << power_success << '\n';
+	std::cout << "Credits: "
+		<< low_power_credits_before << " -> "
+		<< low_power_facility.getCredits() << '\n';
+
+	std::cout << "Power: "
+		<< low_power_before << " -> "
+		<< low_power_facility.getPower() << '\n';
+
+	if (low_power_anomaly != nullptr)
+	{
+		std::cout << "Anomaly Stability: "
+			<< low_power_stability_before << " -> "
+			<< low_power_anomaly->getStability() << '\n';
+	}
+
 
 
 	// --------------------------------------------------
 	// INVALID ANOMALY ID
 	// Verify that maintenance fails when the requested
-	// anomaly does not exist, without spending resources.
+	// anomaly does not exist, preserving all values.
 	// --------------------------------------------------
 
 	std::cout << "\n--- INVALID ANOMALY ID TEST ---\n";
 
 	Facility invalid_facility;
 
-	bool invalid_success = invalid_facility.performAnomalyMaintenance(99, 25);
-
+	// Retrieve a valid anomaly to verify that it remains unchanged.
 	Anomaly* invalid_anomaly = invalid_facility.findAnomalyById(3);
 
-	test_passed = !invalid_success
+	int invalid_credits_before = invalid_facility.getCredits();
+	int invalid_power_before = invalid_facility.getPower();
+
+	int invalid_stability_before = invalid_anomaly != nullptr
+		? invalid_anomaly->getStability()
+		: -1;
+
+	// Attempt maintenance using a nonexistent anomaly ID.
+	bool invalid_maintenance_success =
+		invalid_facility.performAnomalyMaintenance(99, 25);
+
+	test_passed = !invalid_maintenance_success
 		&& invalid_anomaly != nullptr
-		&& invalid_facility.getCredits() == 500
-		&& invalid_facility.getPower() == 100
-		&& invalid_anomaly->getStability() == 20;
+		&& invalid_facility.getCredits() == invalid_credits_before
+		&& invalid_facility.getPower() == invalid_power_before
+		&& invalid_anomaly->getStability() == invalid_stability_before;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
+	recordTestResult(
+		test_passed,
+		"Invalid Anomaly ID",
+		tests_passed,
+		tests_failed
+	);
 
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Invalid Anomaly ID\n";
+	std::cout << "Maintenance Successful: "
+		<< invalid_maintenance_success << '\n';
 
-	std::cout << "Credits After: " << invalid_facility.getCredits() << '\n';
-	std::cout << "Power After: " << invalid_facility.getPower() << '\n';
-	std::cout << "Maintenance Successful: " << invalid_success << '\n';
+	std::cout << "Credits: "
+		<< invalid_credits_before << " -> "
+		<< invalid_facility.getCredits() << '\n';
+
+	std::cout << "Power: "
+		<< invalid_power_before << " -> "
+		<< invalid_facility.getPower() << '\n';
+
+	if (invalid_anomaly != nullptr)
+	{
+		std::cout << "Anomaly Stability: "
+			<< invalid_stability_before << " -> "
+			<< invalid_anomaly->getStability() << '\n';
+	}
 
 
 	// --------------------------------------------------
 	// STABILITY CAP
 	// Verify that maintenance cannot increase anomaly
-	// stability beyond the maximum value of 100.
+	// stability beyond 100, while still charging resources.
 	// --------------------------------------------------
 
 	std::cout << "\n--- STABILITY CAP TEST ---\n";
 
 	Facility cap_facility;
 
-	bool cap_success = cap_facility.performAnomalyMaintenance(1, 25);
-
 	Anomaly* cap_anomaly = cap_facility.findAnomalyById(1);
 
-	test_passed = cap_success
+	int cap_credits_before = cap_facility.getCredits();
+	int cap_power_before = cap_facility.getPower();
+
+	int cap_stability_before = cap_anomaly != nullptr
+		? cap_anomaly->getStability()
+		: -1;
+
+	bool cap_maintenance_success =
+		cap_facility.performAnomalyMaintenance(1, 25);
+
+	test_passed = cap_maintenance_success
 		&& cap_anomaly != nullptr
-		&& cap_facility.getCredits() == 450
-		&& cap_facility.getPower() == 90
+		&& cap_facility.getCredits() == cap_credits_before - 50
+		&& cap_facility.getPower() == cap_power_before - 10
 		&& cap_anomaly->getStability() == 100;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
+	recordTestResult(
+		test_passed,
+		"Stability Cap",
+		tests_passed,
+		tests_failed
+	);
 
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Stability Cap\n";
+	std::cout << "Maintenance Successful: "
+		<< cap_maintenance_success << '\n';
+
+	std::cout << "Credits: "
+		<< cap_credits_before << " -> "
+		<< cap_facility.getCredits() << '\n';
+
+	std::cout << "Power: "
+		<< cap_power_before << " -> "
+		<< cap_facility.getPower() << '\n';
 
 	if (cap_anomaly != nullptr)
 	{
-		std::cout << "Whispering Archive Stability: "
+		std::cout << "Anomaly Stability: "
+			<< cap_stability_before << " -> "
 			<< cap_anomaly->getStability() << '\n';
 	}
 
 
+
 	// --------------------------------------------------
 	// STABILITY FLOOR
-	// Verify that reducing anomaly stability cannot
-	// take its value below the minimum of 0.
+	// Verify that anomaly stability cannot fall below 0.
 	// --------------------------------------------------
 
 	std::cout << "\n--- STABILITY FLOOR TEST ---\n";
@@ -251,25 +396,33 @@ void testAnomalyMaintenance(int& tests_passed, int& tests_failed)
 
 	Anomaly* floor_anomaly = floor_facility.findAnomalyById(3);
 
-	test_passed = floor_anomaly != nullptr;
+	int floor_stability_before = floor_anomaly != nullptr
+		? floor_anomaly->getStability()
+		: -1;
 
-	if (test_passed)
+	// Attempt to reduce stability below zero.
+	if (floor_anomaly != nullptr)
 	{
 		floor_anomaly->adjustStability(-50);
-
-		test_passed = floor_anomaly->getStability() == 0;
 	}
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
+	test_passed = floor_anomaly != nullptr
+		&& floor_anomaly->getStability() == 0;
 
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Stability Floor\n";
+	recordTestResult(
+		test_passed,
+		"Stability Floor",
+		tests_passed,
+		tests_failed
+	);
 
 	if (floor_anomaly != nullptr)
 	{
-		std::cout << "Forgotten Signal Stability: "
+		std::cout << "Anomaly Stability: "
+			<< floor_stability_before << " -> "
 			<< floor_anomaly->getStability() << '\n';
 	}
+
 }
 
 void testResearchSystem(int& tests_passed, int& tests_failed)
@@ -288,10 +441,12 @@ void testResearchSystem(int& tests_passed, int& tests_failed)
 
 	test_passed = research_facility.getResearchPoints() == 0;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Initial Research Balance\n";
+	recordTestResult(
+		test_passed, 
+		"Initial Research Balance", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Initial Research Points: "
 		<< research_facility.getResearchPoints() << '\n';
@@ -308,10 +463,12 @@ void testResearchSystem(int& tests_passed, int& tests_failed)
 
 	test_passed = research_facility.getResearchPoints() == 50;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Add Research Points\n";
+	recordTestResult(
+		test_passed, 
+		"Add Research Points", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Research Points After Addition: "
 		<< research_facility.getResearchPoints() << '\n';
@@ -330,10 +487,12 @@ void testResearchSystem(int& tests_passed, int& tests_failed)
 
 	test_passed = research_facility.getResearchPoints() == 50;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Invalid Research Contributions\n";
+	recordTestResult(
+		test_passed, 
+		"Invalid Research Contributions", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Research Points After Invalid Contributions: "
 		<< research_facility.getResearchPoints() << '\n';
@@ -349,10 +508,12 @@ void testResearchSystem(int& tests_passed, int& tests_failed)
 	test_passed = research_facility.spendResearchPoints(20)
 		&& research_facility.getResearchPoints() == 30;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Spend Research Points\n";
+	recordTestResult(
+		test_passed, 
+		"Spend Research Points", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Research Points After Spending: "
 		<< research_facility.getResearchPoints() << '\n';
@@ -369,10 +530,12 @@ void testResearchSystem(int& tests_passed, int& tests_failed)
 	test_passed = !research_facility.spendResearchPoints(40)
 		&& research_facility.getResearchPoints() == 30;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Insufficient Research Points\n";
+	recordTestResult(
+		test_passed, 
+		"Insufficient Research Points", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Research Points After Failed Spending: "
 		<< research_facility.getResearchPoints() << '\n';
@@ -390,13 +553,630 @@ void testResearchSystem(int& tests_passed, int& tests_failed)
 
 	test_passed = research_facility.getResearchPoints() == 30;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Invalid Research Spending\n";
+	recordTestResult(
+		test_passed, 
+		"Invalid Research Spending", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Research Points After Invalid Spending: "
 		<< research_facility.getResearchPoints() << '\n';
+}
+
+void testStaffRoster(int& tests_passed, int& tests_failed)
+{
+	std::cout << "\n========== STAFF ROSTER TESTS ==========\n";
+
+
+	// --------------------------------------------------
+	// SUCCESSFUL HIRING
+	// Verify that hiring adds a staff member to the roster
+	// and deducts the correct hiring cost.
+	// --------------------------------------------------
+
+	Facility facility;
+
+	int credits_before = facility.getCredits();
+
+	// Create a Researcher and transfer ownership to the Facility.
+	bool hiring_success = facility.hireStaff(
+		std::make_unique<Researcher>(
+			501, "Dr. Helena Voss", 200, 7
+		)
+	);
+
+	// Verify that hiring succeeded and the correct credits were deducted.
+	bool test_passed = hiring_success
+		&& facility.getCredits() == credits_before - 200
+		&& facility.findStaffById(501) != nullptr;
+
+	recordTestResult(
+		test_passed,
+		"Successful Staff Hiring",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Credits Before: " << credits_before << '\n';
+	std::cout << "Credits After: " << facility.getCredits() << '\n';
+
+	std::cout << "Staff Found: "
+		<< (facility.findStaffById(501) != nullptr) << '\n';
+
+	// --------------------------------------------------
+	// INSUFFICIENT CREDITS
+	// Verify that hiring fails when the Facility cannot
+	// afford the employee, preserving its credit balance.
+	// --------------------------------------------------
+
+	std::cout << "\n--- INSUFFICIENT HIRING CREDITS TEST ---\n";
+
+	Facility poor_facility;
+
+	// Reduce available credits below the hiring cost.
+	poor_facility.adjustCredits(-350);
+
+	int poor_credits_before = poor_facility.getCredits();
+
+	bool poor_hiring_success = poor_facility.hireStaff(
+		std::make_unique<Researcher>(
+			502, "Dr. Elias Reed", 200, 6
+		)
+	);
+
+	test_passed = !poor_hiring_success
+		&& poor_facility.getCredits() == poor_credits_before
+		&& poor_facility.findStaffById(502) == nullptr;
+
+	recordTestResult(
+		test_passed,
+		"Insufficient Hiring Credits",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Credits Before: "
+		<< poor_credits_before << '\n';
+
+	std::cout << "Credits After: "
+		<< poor_facility.getCredits() << '\n';
+
+	// --------------------------------------------------
+	// DUPLICATE STAFF ID
+	// Verify that the Facility rejects a staff member
+	// whose ID is already assigned to another employee.
+	// --------------------------------------------------
+
+	std::cout << "\n--- DUPLICATE STAFF ID TEST ---\n";
+
+	Facility duplicate_facility;
+
+	// Hire the first staff member.
+	bool first_hiring_success = duplicate_facility.hireStaff(
+		std::make_unique<Researcher>(
+			503, "Dr. Helena Voss", 200, 7
+		)
+	);
+
+	int duplicate_credits_before = duplicate_facility.getCredits();
+
+	// Attempt to hire another employee using the same ID.
+	bool duplicate_hiring_success = duplicate_facility.hireStaff(
+		std::make_unique<Technician>(
+			503, "Morgan Hale", 150, 8
+		)
+	);
+
+	test_passed = first_hiring_success
+		&& !duplicate_hiring_success
+		&& duplicate_facility.getCredits() == duplicate_credits_before
+		&& duplicate_facility.findStaffById(503) != nullptr
+		&& duplicate_facility.findStaffById(503)->getStaffName() == "Dr. Helena Voss";
+
+	recordTestResult(
+		test_passed,
+		"Duplicate Staff ID",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Credits Before Duplicate Attempt: "
+		<< duplicate_credits_before << '\n';
+
+	std::cout << "Credits After Duplicate Attempt: "
+		<< duplicate_facility.getCredits() << '\n';
+
+	// --------------------------------------------------
+	// INVALID STAFF POINTER
+	// Verify that the Facility rejects a null staff
+	// pointer without changing its credit balance.
+	// --------------------------------------------------
+
+	std::cout << "\n--- INVALID STAFF POINTER TEST ---\n";
+
+	Facility invalid_facility;
+
+	int invalid_credits_before = invalid_facility.getCredits();
+
+	bool invalid_hiring_success = invalid_facility.hireStaff(nullptr);
+
+	test_passed = !invalid_hiring_success
+		&& invalid_facility.getCredits() == invalid_credits_before;
+
+	recordTestResult(
+		test_passed,
+		"Invalid Staff Pointer",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Credits Before: "
+		<< invalid_credits_before << '\n';
+
+	std::cout << "Credits After: "
+		<< invalid_facility.getCredits() << '\n';
+
+	// --------------------------------------------------
+	// SUCCESSFUL STAFF DISMISSAL
+	// Verify that dismissing an employee removes them
+	// from the Facility roster.
+	// --------------------------------------------------
+
+	std::cout << "\n--- SUCCESSFUL STAFF DISMISSAL TEST ---\n";
+
+	Facility dismissal_facility;
+
+	// Hire a staff member before attempting dismissal.
+	bool dismissal_hiring_success = dismissal_facility.hireStaff(
+		std::make_unique<Researcher>(
+			504, "Dr. Nadia Cross", 200, 6
+		)
+	);
+
+	// Dismiss the newly hired employee.
+	bool dismissal_success = dismissal_facility.dismissStaff(504);
+
+	// Verify that the employee is no longer in the roster.
+	test_passed = dismissal_hiring_success
+		&& dismissal_success
+		&& dismissal_facility.findStaffById(504) == nullptr;
+
+	recordTestResult(
+		test_passed,
+		"Successful Staff Dismissal",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Staff Found After Dismissal: "
+		<< (dismissal_facility.findStaffById(504) != nullptr) << '\n';
+
+	// --------------------------------------------------
+	// INVALID STAFF DISMISSAL
+	// Verify that dismissing a nonexistent employee
+	// fails without affecting existing staff.
+	// --------------------------------------------------
+
+	std::cout << "\n--- INVALID STAFF DISMISSAL TEST ---\n";
+
+	Facility invalid_dismissal_facility;
+
+	// Hire an employee who should remain in the roster.
+	bool existing_hiring_success = invalid_dismissal_facility.hireStaff(
+		std::make_unique<Technician>(
+			505, "Morgan Hale", 150, 8
+		)
+	);
+
+	// Attempt to dismiss an ID that does not exist.
+	bool invalid_dismissal_success =
+		invalid_dismissal_facility.dismissStaff(999);
+
+	// Verify that the dismissal failed and the existing
+	// employee remains in the roster.
+	test_passed = existing_hiring_success
+		&& !invalid_dismissal_success
+		&& invalid_dismissal_facility.findStaffById(505) != nullptr;
+
+	recordTestResult(
+		test_passed,
+		"Invalid Staff Dismissal",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Existing Staff Still Found: "
+		<< (invalid_dismissal_facility.findStaffById(505) != nullptr) << '\n';
+
+	// --------------------------------------------------
+	// STAFF COUNT
+	// Verify that the Facility accurately tracks the
+	// number of employees in its roster.
+	// --------------------------------------------------
+
+	std::cout << "\n--- STAFF COUNT TEST ---\n";
+
+	Facility count_facility;
+
+	// Verify that a new Facility starts with zero employees.
+	bool empty_roster_correct = count_facility.getStaffCount() == 0;
+
+	// Hire two employees.
+	bool first_hire = count_facility.hireStaff(
+		std::make_unique<Researcher>(
+			506, "Dr. Evelyn Shaw", 200, 7
+		)
+	);
+
+	bool second_hire = count_facility.hireStaff(
+		std::make_unique<Technician>(
+			507, "Morgan Hale", 150, 8
+		)
+	);
+
+	// Verify that the roster count increases after hiring.
+	bool hiring_count_correct = count_facility.getStaffCount() == 2;
+
+	// Dismiss one employee.
+	bool count_dismissal_success = count_facility.dismissStaff(506);
+
+	// Verify that the roster count decreases after dismissal.
+	bool dismissal_count_correct = count_facility.getStaffCount() == 1;
+
+	test_passed = empty_roster_correct
+		&& first_hire
+		&& second_hire
+		&& hiring_count_correct
+		&& count_dismissal_success
+		&& dismissal_count_correct;
+
+	recordTestResult(
+		test_passed,
+		"Staff Count",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Staff Count After Hiring: 2\n";
+	std::cout << "Staff Count After Dismissal: "
+		<< count_facility.getStaffCount() << '\n';
+
+	// --------------------------------------------------
+	// SUCCESSFUL STAFF ASSIGNMENT
+	// Verify that assigning an employee to an upgrade
+	// makes them unavailable for normal duties.
+	// --------------------------------------------------
+
+	std::cout << "\n--- STAFF ASSIGNMENT TEST ---\n";
+
+	Facility assignment_facility;
+
+	// Hire an employee.
+	bool assignment_hiring_success = assignment_facility.hireStaff(
+		std::make_unique<Researcher>(
+			508, "Dr. Samuel Cross", 200, 7
+		)
+	);
+
+	// Verify the employee is initially available.
+	bool initially_available =
+		assignment_facility.isStaffAvailable(508);
+
+	// Assign the employee to an upgrade.
+	bool assignment_success =
+		assignment_facility.assignStaffToUpgrade(508);
+
+	// Verify the employee is no longer available.
+	bool unavailable_after_assignment =
+		!assignment_facility.isStaffAvailable(508);
+
+	test_passed = assignment_hiring_success
+		&& initially_available
+		&& assignment_success
+		&& unavailable_after_assignment;
+
+	recordTestResult(
+		test_passed,
+		"Successful Staff Assignment",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Available Before Assignment: "
+		<< initially_available << '\n';
+
+	std::cout << "Available After Assignment: "
+		<< assignment_facility.isStaffAvailable(508) << '\n';
+
+	// --------------------------------------------------
+	// DUPLICATE STAFF ASSIGNMENT
+	// Verify that an employee cannot be assigned to
+	// an upgrade more than once.
+	// --------------------------------------------------
+
+	std::cout << "\n--- DUPLICATE STAFF ASSIGNMENT TEST ---\n";
+
+	Facility duplicate_assignment_facility;
+
+	// Hire an employee.
+	bool duplicate_assignment_hiring = duplicate_assignment_facility.hireStaff(
+		std::make_unique<Technician>(
+			509, "Morgan Hale", 150, 8
+		)
+	);
+
+	// Perform the initial assignment.
+	bool first_assignment =
+		duplicate_assignment_facility.assignStaffToUpgrade(509);
+
+	// Attempt to assign the same employee again.
+	bool second_assignment =
+		duplicate_assignment_facility.assignStaffToUpgrade(509);
+
+	test_passed = duplicate_assignment_hiring
+		&& first_assignment
+		&& !second_assignment
+		&& !duplicate_assignment_facility.isStaffAvailable(509);
+
+	recordTestResult(
+		test_passed,
+		"Duplicate Staff Assignment",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "First Assignment: " << first_assignment << '\n';
+	std::cout << "Second Assignment: " << second_assignment << '\n';
+
+	// --------------------------------------------------
+	// SUCCESSFUL STAFF UNASSIGNMENT
+	// Verify that removing an employee's upgrade
+	// assignment restores their availability.
+	// --------------------------------------------------
+
+	std::cout << "\n--- STAFF UNASSIGNMENT TEST ---\n";
+
+	Facility unassignment_facility;
+
+	// Hire an employee.
+	bool unassignment_hiring = unassignment_facility.hireStaff(
+		std::make_unique<Researcher>(
+			510, "Dr. Elias Reed", 200, 6
+		)
+	);
+
+	// Assign the employee to an upgrade.
+	bool initial_assignment =
+		unassignment_facility.assignStaffToUpgrade(510);
+
+	// Verify the employee is unavailable.
+	bool unavailable_before_unassignment =
+		!unassignment_facility.isStaffAvailable(510);
+
+	// Remove the employee's upgrade assignment.
+	bool unassignment_success =
+		unassignment_facility.unassignStaffFromUpgrade(510);
+
+	// Verify the employee is available again.
+	bool available_after_unassignment =
+		unassignment_facility.isStaffAvailable(510);
+
+	test_passed = unassignment_hiring
+		&& initial_assignment
+		&& unavailable_before_unassignment
+		&& unassignment_success
+		&& available_after_unassignment;
+
+	recordTestResult(
+		test_passed,
+		"Successful Staff Unassignment",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Available Before Unassignment: "
+		<< !unavailable_before_unassignment << '\n';
+
+	std::cout << "Available After Unassignment: "
+		<< available_after_unassignment << '\n';
+
+	// --------------------------------------------------
+	// INVALID STAFF UNASSIGNMENT
+	// Verify that an employee without an active
+	// upgrade assignment cannot be unassigned.
+	// --------------------------------------------------
+
+	std::cout << "\n--- INVALID STAFF UNASSIGNMENT TEST ---\n";
+
+	Facility invalid_unassignment_facility;
+
+	// Hire an employee without assigning them.
+	bool invalid_unassignment_hiring =
+		invalid_unassignment_facility.hireStaff(
+			std::make_unique<Technician>(
+				511, "Morgan Hale", 150, 8
+			)
+		);
+
+	// Attempt to unassign an employee who was never assigned.
+	bool invalid_unassignment =
+		invalid_unassignment_facility.unassignStaffFromUpgrade(511);
+
+	// Verify the employee remains available.
+	bool employee_still_available =
+		invalid_unassignment_facility.isStaffAvailable(511);
+
+	test_passed = invalid_unassignment_hiring
+		&& !invalid_unassignment
+		&& employee_still_available;
+
+	recordTestResult(
+		test_passed,
+		"Invalid Staff Unassignment",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Unassignment Successful: "
+		<< invalid_unassignment << '\n';
+
+	std::cout << "Employee Still Available: "
+		<< employee_still_available << '\n';
+
+	// --------------------------------------------------
+	// DISMISSAL WHILE ASSIGNED
+	// Verify that an employee assigned to an upgrade
+	// cannot be dismissed from the Facility.
+	// --------------------------------------------------
+
+	std::cout << "\n--- DISMISSAL WHILE ASSIGNED TEST ---\n";
+
+	Facility assigned_dismissal_facility;
+
+	// Hire an employee.
+	bool assigned_dismissal_hiring =
+		assigned_dismissal_facility.hireStaff(
+			std::make_unique<Researcher>(
+				512, "Dr. Voss", 200, 5
+			)
+		);
+
+	// Assign the employee to an upgrade.
+	bool assigned_dismissal_assignment =
+		assigned_dismissal_facility.assignStaffToUpgrade(512);
+
+	// Attempt to dismiss the assigned employee.
+	bool assigned_dismissal_result =
+		assigned_dismissal_facility.dismissStaff(512);
+
+	// Verify the employee remains in the roster.
+	bool employee_still_exists =
+		assigned_dismissal_facility.findStaffById(512) != nullptr;
+
+	test_passed = assigned_dismissal_hiring
+		&& assigned_dismissal_assignment
+		&& !assigned_dismissal_result
+		&& employee_still_exists;
+
+	recordTestResult(
+		test_passed,
+		"Dismissal While Assigned",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Dismissal Successful: "
+		<< assigned_dismissal_result << '\n';
+
+	std::cout << "Employee Still Exists: "
+		<< employee_still_exists << '\n';
+
+	// --------------------------------------------------
+	// DISMISSAL AFTER UNASSIGNMENT
+	// Verify that an employee can be dismissed after
+	// their upgrade assignment has been removed.
+	// --------------------------------------------------
+
+	std::cout << "\n--- DISMISSAL AFTER UNASSIGNMENT TEST ---\n";
+
+	Facility released_dismissal_facility;
+
+	// Hire an employee.
+	bool released_hiring =
+		released_dismissal_facility.hireStaff(
+			std::make_unique<Technician>(
+				513, "Morgan Hale", 150, 8
+			)
+		);
+
+	// Assign the employee to an upgrade.
+	bool released_assignment =
+		released_dismissal_facility.assignStaffToUpgrade(513);
+
+	// Remove the employee's upgrade assignment.
+	bool released_unassignment =
+		released_dismissal_facility.unassignStaffFromUpgrade(513);
+
+	// Attempt to dismiss the now-available employee.
+	bool released_dismissal =
+		released_dismissal_facility.dismissStaff(513);
+
+	// Verify the employee no longer exists.
+	bool employee_removed =
+		released_dismissal_facility.findStaffById(513) == nullptr;
+
+	test_passed = released_hiring
+		&& released_assignment
+		&& released_unassignment
+		&& released_dismissal
+		&& employee_removed;
+
+	recordTestResult(
+		test_passed,
+		"Dismissal After Unassignment",
+		tests_passed,
+		tests_failed
+	);
+
+	std::cout << "Unassignment Successful: "
+		<< released_unassignment << '\n';
+
+	std::cout << "Dismissal Successful: "
+		<< released_dismissal << '\n';
+
+	std::cout << "Employee Removed: "
+		<< employee_removed << '\n';
+
+	// --------------------------------------------------
+	// STAFF CONDITION DISPLAY
+	// Verify that staff information and condition
+	// are displayed correctly.
+	// --------------------------------------------------
+
+	std::cout << "\n--- STAFF CONDITION DISPLAY TEST ---\n";
+
+	Facility display_facility;
+
+	display_facility.hireStaff(
+		std::make_unique<Researcher>(
+			514, "Dr. Elias Reed", 200, 6
+		)
+	);
+
+	// Assign the employee to an upgrade.
+	display_facility.assignStaffToUpgrade(514);
+
+	std::cout << "\n--- ASSIGNED STAFF DISPLAY ---\n";
+	display_facility.displayStaffRoster();
+
+	// Release the employee from the upgrade.
+	display_facility.unassignStaffFromUpgrade(514);
+
+	std::cout << "\n--- AVAILABLE STAFF DISPLAY ---\n";
+	display_facility.displayStaffRoster();
+
+	// Display the employee at full condition.
+	std::cout << "\n--- FULL CONDITION ---\n";
+	display_facility.displayStaffRoster();
+
+	// Reduce condition to 75%.
+	display_facility.findStaffById(514)->adjustStaffCondition(-25);
+
+	std::cout << "\n--- GOOD CONDITION ---\n";
+	display_facility.displayStaffRoster();
+
+	// Reduce condition to 40%.
+	display_facility.findStaffById(514)->adjustStaffCondition(-35);
+
+	std::cout << "\n--- MODERATE CONDITION ---\n";
+	display_facility.displayStaffRoster();
+
+	// Reduce condition to 15%.
+	display_facility.findStaffById(514)->adjustStaffCondition(-25);
+
+	std::cout << "\n--- LOW CONDITION ---\n";
+	display_facility.displayStaffRoster();
 }
 
 
@@ -422,10 +1202,12 @@ void testResearcher(int& tests_passed, int& tests_failed)
 	bool test_passed = facility.getResearchPoints()
 		== research_before + researcher.getSkillLevel();
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Researcher Contribution\n";
+	recordTestResult(
+		test_passed, 
+		"Researcher Contribution", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Research Points Before: "
 		<< research_before << '\n';
@@ -458,10 +1240,12 @@ void testTechnician(int& tests_passed, int& tests_failed)
 	bool test_passed = facility.getPower()
 		== power_before + technician.getSkillLevel();
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Technician Power Restoration\n";
+	recordTestResult(
+		test_passed, 
+		"Technician Power Restoration", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Power Before: " << power_before << '\n';
 	std::cout << "Power After: " << facility.getPower() << '\n';
@@ -493,10 +1277,12 @@ void testContainmentSpecialist(int& tests_passed, int& tests_failed)
 	// Verify that stability increased by the specialist's skill level.
 	bool test_passed = anomaly->getStability() == stability_before + 8;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Containment Specialist Stabilization\n";
+	recordTestResult(
+		test_passed, 
+		"Containment Specialist Stabilization", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Stability Before: " << stability_before << '\n';
 	std::cout << "Stability After: " << anomaly->getStability() << '\n';
@@ -523,10 +1309,12 @@ void testContainmentSpecialist(int& tests_passed, int& tests_failed)
 	test_passed = cap_anomaly != nullptr
 		&& cap_anomaly->getStability() == 100;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Containment Stability Cap\n";
+	recordTestResult(
+		test_passed, 
+		"Containment Stability Cap", 
+		tests_passed, 
+		tests_failed
+	);
 
 	if (cap_anomaly != nullptr)
 	{
@@ -557,10 +1345,12 @@ void testContainmentSpecialist(int& tests_passed, int& tests_failed)
 	test_passed = existing_anomaly != nullptr
 		&& existing_anomaly->getStability() == 20;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Invalid Anomaly ID\n";
+	recordTestResult(
+		test_passed, 
+		"Invalid Anomaly ID", 
+		tests_passed, 
+		tests_failed
+	);
 	
 }
 
@@ -588,10 +1378,12 @@ void testSecurityOfficer(int& tests_passed, int& tests_failed)
 	bool test_passed = facility.getFacilityStability()
 		== stability_before + 8;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Security Threat Response\n";
+	recordTestResult(
+		test_passed, 
+		"Security Threat Response", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Stability Before: " << stability_before << '\n';
 	std::cout << "Stability After: "
@@ -618,10 +1410,12 @@ void testSecurityOfficer(int& tests_passed, int& tests_failed)
 	// Verify that stability never exceeds 100.
 	test_passed = cap_facility.getFacilityStability() == 100;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Security Stability Cap\n";
+	recordTestResult(
+		test_passed, 
+		"Security Stability Cap", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Final Stability: "
 		<< cap_facility.getFacilityStability() << '\n';
@@ -652,18 +1446,20 @@ void testMedicalOfficer(int& tests_passed, int& tests_failed)
 	bool test_passed = researcher.getStaffCondition()
 		== condition_before + 12;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Medical Treatment\n";
+	recordTestResult(
+		test_passed, 
+		"Medical Treatment", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Condition Before: " << condition_before << '\n';
 	std::cout << "Condition After: "
 		<< researcher.getStaffCondition() << '\n';
 
 	// ==========================================
-//           MEDICAL CONDITION CAP TEST
-// ==========================================
+	//           MEDICAL CONDITION CAP TEST
+	// ==========================================
 
 	std::cout << "\n--- MEDICAL CONDITION CAP TEST ---\n";
 
@@ -680,17 +1476,23 @@ void testMedicalOfficer(int& tests_passed, int& tests_failed)
 	// Verify that condition does not exceed 100.
 	test_passed = technician.getStaffCondition() == 100;
 
-	recordTestResult(test_passed, tests_passed, tests_failed);
-
-	std::cout << (test_passed ? "PASS" : "FAIL")
-		<< " | Medical Condition Cap\n";
+	recordTestResult(
+		test_passed, 
+		"Medical Condition Cap", 
+		tests_passed, 
+		tests_failed
+	);
 
 	std::cout << "Final Condition: "
 		<< technician.getStaffCondition() << '\n';
 }
 
-// Updates the appropriate test counter based on the test result.
-void recordTestResult(bool test_passed, int& tests_passed, int& tests_failed)
+// Records test results, updates counters, and displays the result.
+void recordTestResult(
+	bool test_passed,
+	const std::string& test_name,
+	int& tests_passed,
+	int& tests_failed)
 {
 	if (test_passed)
 	{
@@ -700,4 +1502,7 @@ void recordTestResult(bool test_passed, int& tests_passed, int& tests_failed)
 	{
 		tests_failed++;
 	}
+
+	std::cout << test_name << " Test: "
+		<< (test_passed ? "PASS" : "FAIL") << '\n';
 }
