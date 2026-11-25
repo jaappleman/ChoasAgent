@@ -7,18 +7,86 @@
 namespace Helper
 {
 	// defining const display color values for strings
+	// BLUE
+	const std::string BLUE = "\033[34m";
+	const std::string LIGHT_BLUE = "\033[94m";
+	const std::string SKY_BLUE = "\033[38;5;117m";
+	const std::string DEEP_BLUE = "\033[38;5;27m";
+	const std::string ELECTRIC_BLUE = "\033[38;5;39m";
+	const std::string STEEL_BLUE = "\033[38;5;67m";
+	const std::string ICE_BLUE = "\033[38;5;159m";
+	const std::string MIDNIGHT_BLUE = "\033[38;5;17m";
+	const std::string CYAN = "\033[36m";
+	// GREEN
+	const std::string GREEN = "\033[32m";
+	const std::string LIME = "\033[38;5;118m";
+	const std::string MINT = "\033[38;5;121m";
+	const std::string LIGHT_GREEN = "\033[92m";
+	const std::string EMERALD = "\033[38;5;40m";
+	const std::string FOREST_GREEN = "\033[38;5;22m";
+	const std::string TEAL = "\033[38;5;43m";
+	const std::string OLIVE = "\033[38;5;142m";
+	const std::string NEON_GREEN = "\033[38;5;46m";
+	// RED
+	const std::string RED = "\033[31m";
+	const std::string CRIMSON = "\033[38;5;160m";
+	const std::string SCARLET = "\033[38;5;196m";
+	const std::string DARK_RED = "\033[38;5;88m";
+	const std::string BRICK_RED = "\033[38;5;124m";
+	const std::string CORAL_RED = "\033[38;5;203m";
+	const std::string SALMON = "\033[38;5;210m";
+	// PURPLE & VIOLET
+	const std::string PURPLE = "\033[35m";
+	const std::string LAVENDER = "\033[38;5;183m";
+	const std::string VIOLET = "\033[38;5;129m";
+	const std::string INDIGO = "\033[38;5;54m";
+	const std::string DEEP_PURPLE = "\033[38;5;91m";
+	const std::string MAGENTA = "\033[35m";
+	const std::string NEON_PURPLE = "\033[38;5;165m";
+	const std::string AMETHYST = "\033[38;5;141m";
+	const std::string ORCHID = "\033[38;5;170m";
+	// PINK
 	const std::string PINK = "\033[95m";
 	const std::string LIGHT_PINK = "\033[38;5;218m";
 	const std::string HOT_PINK = "\033[38;5;205m";
 	const std::string SOFT_PINK = "\033[38;5;213m";
-	const std::string CYAN = "\033[36m";
+	// YELLOW & GOLD
 	const std::string YELLOW = "\033[33m";
-	const std::string RED = "\033[31m";
-	const std::string GREEN = "\033[32m";
-	const std::string ORANGE = "\033[38;5;208m";
-	const std::string PURPLE = "\033[35m";
 	const std::string GOLD = "\033[38;5;220m";
+	const std::string BRIGHT_YELLOW = "\033[93m";
+	const std::string LEMON = "\033[38;5;226m";
+	const std::string AMBER = "\033[38;5;214m";
+	const std::string DARK_GOLD = "\033[38;5;136m";
+	const std::string SUNFLOWER = "\033[38;5;220m";
+	const std::string PALE_YELLOW = "\033[38;5;229m";
+	const std::string CHAMPAGNE = "\033[38;5;223m";
+	// ORANGE
+	const std::string ORANGE = "\033[38;5;208m";
+	const std::string DARK_ORANGE = "\033[38;5;166m";
+	const std::string BRIGHT_ORANGE = "\033[38;5;202m";
+	const std::string PEACH = "\033[38;5;216m";
+	const std::string TANGERINE = "\033[38;5;208m";
+	const std::string APRICOT = "\033[38;5;215m";
+	// WHITE & GRAY & BLACK
+	const std::string WHITE = "\033[37m";
+	const std::string BRIGHT_WHITE = "\033[97m";
+	const std::string SILVER = "\033[38;5;250m";
+	const std::string LIGHT_GRAY = "\033[38;5;245m";
+	const std::string GRAY = "\033[38;5;244m";
+	const std::string DARK_GRAY = "\033[38;5;240m";
+	const std::string CHARCOAL = "\033[38;5;236m";
+	const std::string BLACK = "\033[38;5;16m";
+	// EFFECTS
 	const std::string RESET = "\033[0m";
+	const std::string BOLD = "\033[1m";
+	const std::string DIM = "\033[2m";
+	const std::string ITALIC = "\033[3m";
+	const std::string UNDERLINE = "\033[4m";
+	const std::string BLINK = "\033[5m";
+	const std::string REVERSE = "\033[7m";
+	const std::string HIDDEN = "\033[8m";
+	const std::string STRIKETHROUGH = "\033[9m";
+	
 	// In your Helper namespace Add the following static method
 	// CoinFlip
 	// This method is static
@@ -33,6 +101,128 @@ namespace Helper
 		// return distrib(gen) == 1; // will return true for heads (1) or false for tails (0)
 		/// simplifying to use the same seed from main
 		return rand() % 2 == 1; // % 2 will = either 1 or 0 and return true for heads (1) or false for tails (0)
+	}
+	// anamoly containment title banner
+	static void AnomalyBanner()
+	{
+		std::cout << Helper::BRICK_RED 
+			      << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++X&&&&&+++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++xXX&&&+++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&&&+++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++x+++++++++++++++++x++++++++++&&&+++++++++++++++++++++++\n";
+		std::cout << "+++++x$&&&&&&&&Xx+++$&&&&$x$&&&&&$x++++++xx$&&&&&&&X++++$&&&&$X&&&&&&$xx$&&&&&$x++++++xX&&&&&&&&Xx++++++&&&+++X&&&&&&x++$&&&&&$+++\n";
+		std::cout << "+++++$&&XxxxX$&&$x++++X&&&&XxxxX&&&X+++++$&&&XxxXX&&&X++++X&&&$Xxxx$&&&&$XxxX&&&X++++x$&&XXxxx$&&&x+++++&&&+++++$&&$x++++X&&&x++++\n";
+		std::cout << "+++++X$X+++++x$&&X++++X&&$++++++X&&$++++X&&$++++++X&&&x+++X&&$++++++$&&$x++++x&&&+++++X$X++++++$&&X+++++&&&+++++x$&&X+++x$&&X+++++\n";
+		std::cout << "++++++++xXXXXX$&&X++++X&&$++++++X&&$+++x$&&X+++++++$&&X+++X&&$++++++X&&X++++++&&&x+++++++xXXXXX$&&X+++++&&&++++++X&&&++xX&&$++++++\n";
+		std::cout << "+++++X&&&&&&&&&&&X++++X&&$++++++X&&$+++x$&&X+++++++$&&X+++X&&$++++++X&&X++++++&&&x++++x$&&&&&&&&&&X+++++&&&+++++++X&&$+x&&&x++++++\n";
+		std::cout << "++++X&&&x++++x$&&X++++X&&$++++++X&&$+++x$&&X++++++x$&&x+++X&&$++++++X&&X++++++&&&x+++x&&&X+++++$&&X+++++&&&++++++++$&&X&&&x+++++++\n";
+		std::cout << "++++X&&$+++++X&&&X++++X&&$++++++X&&$++++X&&&x+++++X&&$x+++X&&$++++++X&&X++++++&&&x+++X&&$+++++X&&&X+++++&&&x+++++++x&&&&&X++++++++\n";
+		std::cout << "++++x&&&&$$&&&&&&$X+X$$&&&$Xx+X$$&&&$Xx++x&&&&$$&&&&$+++X$$&&&$XxxX$&&&&$XxxX$&&&$$x++$&&&$$&&&&&&$X+xX$&&&$Xx++++++X&&&$x++++++++\n";
+		std::cout << "++++++X$$&$$X+X&&&$+X$$$$$$$x+X$$$$$$$x++++x$$&&$$Xx++++X$$$$$$$xx$$$$$$$$xx$$$$$$$X+++X$$&$$X+X&&&$+X$$$$$$$X+++++++$&&X+++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++$&&X++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++xXX$&&$x++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++X&&&&X++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++xXXx+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++X&x++X&X+++++++++++++++++++++++++++++++++xx++++++++++++++x$&x+++++++++++++++++++++++++++++++++++++++++++++++++++++xx++++++\n";
+		std::cout << "+++++++X&X++x&$x+++++++++++++++++++++++++++++++++X&X+++++++x+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++x+x&$x+++++\n";
+		std::cout << "++++++x&$+++$&x++x&&&&&&X++X&&&&&$x+$&&$$&&&$x+x$&&&&X+X&&&&&$x+x&&&x+X&&$$&&&&x+x$&&$&&&&X$&&&$x++xX&&&&&X+X&&&$&&&&X++X&&&&$++++\n";
+		std::cout << "++++++$&x++X&X++x&&x++x&$xX&$+++X&$x+X&$x++X&$+++X&X+++XX+++X&$++x$&x++X&$x++X&$x++X&X+++&&X++X&$++X&$+++$&X+x$&x++x&&x++x&$x+++++\n";
+		std::cout << "+++++x&X+++&$+++X&$+++++++X&X++++&&X+X&$+++X&$+++X&X+++xX&&&&&$++x$&x++X&$+++x&$x++X&x+++$&+++x&&++$&&&&&&&X++$&x+++$&X++x&$x+++++\n";
+		std::cout << "++++x&$++x$$x+++X&&x+++$XxX&$+++x&&x+X&$+++X&$x++X&X+++&&x++X&$++x$&x++X&$+++x&$x++X&x+++$&+++x&&++X&X+++++++x$&x++x$&X++x&$x+++++\n";
+		std::cout << "+++x$&x++X&X+++++X&&$$&&X++X&&X$&$x+X$&&X+X$&$Xx+x&$XX+$&$X$&&&xxX&&$Xx$&&Xxx$&&XxX$&$XxX&&$xX$&&XxxX&$X$$&xxX&&$xxX&&$x++&&$Xx+++\n";
+		std::cout << "+++X&x++X&X++++++++xxxx++++++xxxx+++xxxxx+xxxxx+++xxxx++xxxx+xxxxxxxxxxxxxx+xxxxxxxxxxxxxxxxxxxxxx++++xxxx++xxxxxx+xxxxx+++xxxx+++\n" 
+			<< Helper::RESET;
+	}
+	// anamoly symbol banner
+	static void AnomalySymbol()
+	{
+		std::cout << Helper::BRICK_RED 
+			      << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;.      :+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.    " 
+			<< Helper::BLINK << Helper::ORANGE << ".." << Helper::RESET << Helper::BRICK_RED 
+			<< "    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;   " 
+			<< Helper::BLINK << Helper::ORANGE << ":++;;" << Helper::RESET << Helper::BRICK_RED 
+			<< "   .+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++:   " 
+			<< Helper::BLINK << Helper::ORANGE << ":+++;" << Helper::RESET << Helper::BRICK_RED 
+			<< "    ;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++;:        " 
+			<< Helper::BLINK << Helper::ORANGE << ".." << Helper::RESET << Helper::BRICK_RED 
+			<< "       .;+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++.     .;;.      :+:      ;++x+++++x+++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++;:::;+;:     :;++++++   ;++++++:.    .:;::::;+++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++.           .++++++++++   ;+++++++++;           ;+++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++   " 
+			<< Helper::BLINK << Helper::PURPLE << ".:;:." << Helper::RESET << Helper::BRICK_RED 
+			<< "   ;++++++++++++   ;+++++++++++    " 
+			<< Helper::BLINK << Helper::GREEN << ":;;." << Helper::RESET << Helper::BRICK_RED 
+			<< "   ;++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++:   " 
+			<< Helper::BLINK << Helper::PURPLE << ";+++;" << Helper::RESET << Helper::BRICK_RED 
+			<< "   :++++++++++++   ;++++++++x+;   " 
+			<< Helper::BLINK << Helper::GREEN << ";+;++." << Helper::RESET << Helper::BRICK_RED 
+			<< "  :++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++;   " 
+			<< Helper::BLINK << Helper::PURPLE << ":;+;:" << Helper::RESET << Helper::BRICK_RED 
+			<< "     :;+++++++++   ;+++++++++:.   " 
+			<< Helper::BLINK << Helper::GREEN << ".;+;:" << Helper::RESET << Helper::BRICK_RED 
+			<< "   :++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++:         .     .;++++++   ;++++++:              .+++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++:     :++++:     .;+;.   .:++:     .;++;.    .+++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++;   ;++++++++:.                :;++++++++   :+++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++++   ;+++++++++++:   " 
+			<< Helper::BLINK << Helper::SILVER << ".;;;:" << Helper::RESET << Helper::BRICK_RED 
+			<< "   .;+++++++++++   :+++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++;   ;+++++++++++;   " 
+			<< Helper::BLINK << Helper::SILVER << ";+++;" << Helper::RESET << Helper::BRICK_RED 
+			<< "   .++++++++++++   :+++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++++   ;++++++++++:.    " 
+			<< Helper::BLINK << Helper::SILVER << ":;;." << Helper::RESET << Helper::BRICK_RED 
+			<< "    :+++++++++++   :+++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++;   ;+++++++:                   :;++++++;   .+++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++;   :++x+.      ;+++;   :++++:      .           :x++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++;             :;+++++++   ;+++++++:      " 
+			<< Helper::BLINK << Helper::GOLD << ":::::::" 
+			<< Helper::RESET << Helper::BRICK_RED << "   :++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++:   " 
+			<< Helper::BLINK << Helper::ELECTRIC_BLUE << ".;;." << Helper::RESET << Helper::BRICK_RED 
+			<< "    .+++++++++++   ;++++++++++.  " 
+			<< Helper::BLINK << Helper::GOLD << ":X$XX$XX" << Helper::RESET << Helper::BRICK_RED 
+			<< "   :++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++   " 
+			<< Helper::BLINK << Helper::ELECTRIC_BLUE << ":;+++:" << Helper::RESET << Helper::BRICK_RED 
+			<< "   ++++++++++++   ;++++++++++.  " 
+			<< Helper::BLINK << Helper::GOLD << ":$X$X$XX" << Helper::RESET << Helper::BRICK_RED 
+			<< "   :++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++.  " 
+			<< Helper::BLINK << Helper::ELECTRIC_BLUE << ".;;;;." << Helper::RESET << Helper::BRICK_RED 
+			<< "  .++++++++++++   ;++++++++x+.  " 
+			<< Helper::BLINK << Helper::GOLD << ":$X$X$XX" << Helper::RESET << Helper::BRICK_RED 
+			<< "   :++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++.            :+++++++++   ;++++++++;.   " 
+			<< Helper::BLINK << Helper::GOLD << ":xxxxxX+" 
+			<< Helper::RESET << Helper::BRICK_RED << "   :++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++;.    .;;.     :++++++   :+++x+:                  +++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++:     ..       .:      ;++;:.......:;++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++:      " 
+			<< Helper::BLINK << Helper::SOFT_PINK << ":::." << Helper::RESET 
+			<< Helper::BRICK_RED << "     .;++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;   " 
+			<< Helper::BLINK << Helper::SOFT_PINK << ";+++;" << Helper::RESET 
+			<< Helper::BRICK_RED << "    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;   " 
+			<< Helper::BLINK << Helper::SOFT_PINK << ".;+;:" << Helper::RESET 
+			<< Helper::BRICK_RED << "   :+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;         .++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++:.    :;+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ " 
+			<< Helper::BLINK << Helper::SCARLET 
+			<< "[anamoly//containment]" << Helper::RESET << Helper::BRICK_RED << " ++++++++++\n";
+		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" 
+			<< Helper::RESET << std::endl;
 	}
 	// creating a multicolor banner for the RPG title screen
 	static void BannerRPG()

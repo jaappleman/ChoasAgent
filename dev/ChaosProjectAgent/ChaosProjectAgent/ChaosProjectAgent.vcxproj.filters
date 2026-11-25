@@ -24,6 +24,24 @@
     <ClCompile Include="Facility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Staff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Researcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Technician.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ContainmentSpecialist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SecurityOfficer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MedicalOfficer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helper.h">
@@ -33,6 +51,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Facility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Researcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Technician.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ContainmentSpecialist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SecurityOfficer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MedicalOfficer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,7 +11,7 @@ private:
     int anomalyStability;
 
 public:
-    // dafault constructor
+    // parameterized constructor
     Anomaly(int anomaly_id, std::string anomaly_name, int starting_stability);
     // display
     void displayInfo() const;
@@ -22,4 +22,6 @@ public:
     int getAnomalyId() const;
     std::string getAnomalyName() const;
     std::string getStatus() const;
+    // functions
+    void performMaintenance(int repair_amount);
 };

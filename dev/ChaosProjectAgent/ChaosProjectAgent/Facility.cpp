@@ -7,6 +7,7 @@ Facility::Facility()
     : power(100),
     credits(500),
     facilityStability(100),
+    researchPoints(0),
     currentDay(1)
 {
     anomalies.emplace_back(1, "Whispering Archive", 85);
@@ -21,6 +22,7 @@ void Facility::displayStatus() const
     std::cout << "Current Day: " << currentDay << '\n';
     std::cout << "Power: " << power << '\n';
     std::cout << "Credits: " << credits << '\n';
+    std::cout << "Research Points: " << researchPoints << '\n';
     std::cout << "Facility Stability: " << facilityStability << "%\n";
 
     std::cout << "Registered Anomalies: " << anomalies.size() << '\n';
@@ -65,6 +67,31 @@ void Facility::adjustFacilityStability(int change_amount)
 {
     facilityStability = std::clamp(facilityStability + change_amount, 0, 100);
 }
+void Facility::addResearchPoints(int research_amount)
+{
+    if (research_amount <= 0)
+    {
+        return;
+    }
+
+    researchPoints += research_amount;
+}
+bool Facility::spendResearchPoints(int research_cost)
+{
+    if (research_cost <= 0)
+    {
+        return false;
+    }
+
+    if (researchPoints < research_cost)
+    {
+        return false;
+    }
+
+    researchPoints -= research_cost;
+
+    return true;
+}
 // get Power
 int Facility::getPower() const
 {
@@ -84,6 +111,10 @@ int Facility::getFacilityStability() const
 int Facility::getCurrentDay() const
 {
     return currentDay;
+}
+int Facility::getResearchPoints() const
+{
+    return researchPoints;
 }
 // find Anomaly* by ID
 Anomaly* Facility::findAnomalyById(int anomaly_id)
@@ -120,5 +151,28 @@ void Facility::monitorAnomalyStability()
             adjustFacilityStability(-5);
         }
     }
+}
+
+bool Facility::performAnomalyMaintenance(int anomaly_id, int repair_amount)
+{
+    const int maintenance_cost = 50;
+    const int power_cost = 10;
+    Anomaly* anomaly = findAnomalyById(anomaly_id);
+    if (anomaly == nullptr)
+    {
+        return false;
+    }
+    if (credits < maintenance_cost)
+    {
+        return false;
+    }
+    if (power < power_cost)
+    {
+        return false;
+    }
+    adjustCredits(-maintenance_cost);
+    adjustPower(-power_cost);
+    anomaly->performMaintenance(repair_amount);
+    return true;
 }
 

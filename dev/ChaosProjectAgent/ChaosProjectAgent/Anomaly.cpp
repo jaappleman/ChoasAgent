@@ -50,3 +50,8 @@ std::string Anomaly::getStatus() const
         return "Critical";
     }
 }
+// increase anomaly Stability
+void Anomaly::performMaintenance(int repair_amount)
+{
+    adjustStability(repair_amount);
+}

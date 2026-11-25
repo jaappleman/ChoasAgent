@@ -1,6 +1,6 @@
 # 🚀 Welcome to Project & Portfolio!
 
-Joshua Appleman: Chaos Project Agent (working title)
+Joshua Appleman: anomaly//containment (previously briefly know as Chaos Project Agent) (working title)
 
 ## **ANOMALY // CONTAINMENT**
 
@@ -23,16 +23,16 @@ Hello my name is [Joshua Appleman]. I am a student from [Akron, Ohio]. The purpo
 Each week I will summarize my milestone activity and progress by writing a stand-up. A stand-up is meant to be a succinct update on how things are going. Use these prompts as a guide on what to write about:
 
 ⚙️ Overview - What I worked on this past week
-<br>Brainstormed the concept and mechanics of my game. Developed a plan for how I will approach development each week. Set up my github project to 
+<br>Class creation: Anomaly and Facility. Abstract base class: Staff, derived class Researcher, Technician, ContainmentSpecialist, SecurityOfficer, MedicalOfficer. I have created the smallest class (Anomaly) first and have progressed to my next class (Facility) which contains a private member vector of Anomaly objects. I then created my base abstract class Staff, using polymorphism and inheritance to create derived classes for the employee types of Researcher, Technician, ContainmentSpecialist, SecurityOfficer, and MedicalOfficer. Each override the performDuty funtion from Staff to call their unique funtions. I will add a vector to Facility to store the hired staff and build the staff management mechanics. I have tested boundaries on my member variables and setters. I am using pointers for the Staff objects and references for the Anomaly objects. I have at least two more classes to create, Events and Game. I want to be able to output the Game class object as a save file at the end of the month and load it to continue the game at a later date without losing any progress.
 
 🌵 Challenges - What problems did I have & how I'm addressing them
-<br>I know my largest issue will be keeping scope creep in check as I build and develop. As with my text-based RPG, the scope kept growing and growing as I thought of more and more mechanics and concepts to implement into the design. I will keep this is check my focusing on the core build first to make it strong and functional before getting distracted by all the bright and oh so shineys.
+<br>I know my largest issue will be keeping scope creep in check as I build and develop. As with my text-based RPG, the scope kept growing and growing as I thought of more and more mechanics and concepts to implement into the design. I will keep this is in check my focusing on the core build first to make it strong and functional before getting distracted by all the bright and oh so shineys. However, I am hoping that I can find time to incorporate some of the more interesting and complex game play mechanics and functionality that I've already imagined. Those are bonus options that will be addressed based on time constraints. I will not sacrifice functionality for flash. I probably mean that. I mostly mean that. I will try.
 
 🏆 Accomplishments - What is something I "leveled up" on this week
-<br>
-🔮 Next Steps - What I plan to prioritize and do next
+<br>I have created each class from start to finish, testing each function and member variable along the way before moving on to the next. I have tested all the getters, setters, class functions, and calling functions within functions. I have used clamp to set int value boundaries for my private member variables within my classes and tested those set int boundaries for stability in both classes hold true despite trying to set them outside those bounds. I have made great progress toward building a strong foundation that can be 
 
-I will build my four base classes and make them functional. Complete the menu and base loop for the game. Create a few basic instances of each for testing. User input will be implemented next week so I will build a functional test loop that will autorun to test functionality and outputs.
+🔮 Next Steps - What I plan to prioritize and do next
+<br>My hope for this week is to complete the required base classes, menu, and game loop to make the game functional so that I can use my remaining time to implement game mechanics like Research and DevelopTech beyond the core mechanic of Contain. I want Contain to be the minimum game experience, not the total experience. I would also like to implement a base Staff class with derived class of employees with unique functions and benefits. User input will be implemented next week so I will build a functional test loop that will autorun to test functionality, cycles, and outputs for now.
 # The plan for this week of building a functional foundation to the program:
 
 **Phase 1: Project creation**
@@ -49,7 +49,7 @@ Build the main menu, navigation, input validation, and a persistent program loop
 
 **Phase 4: First simulation mechanics**
 
-Introduce facility stats, a few anomalies, and my first simple functional system.
+Introduce facility stats, a few anomalies and random events, and my first simple functional system.
 
 **Phase 5: GitHub & milestone preparation**
 

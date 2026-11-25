@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="ChaosProjectAgent/ChaosProjectAgent.vcxproj" />
+  <Project Path="ChaosProjectAgent/ChaosProjectAgent.vcxproj" Id="49f65be8-c658-476f-a455-ab6a30ff93a5" />
 </Solution>
