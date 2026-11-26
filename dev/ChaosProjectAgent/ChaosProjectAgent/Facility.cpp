@@ -2,6 +2,12 @@
 #include <iostream>
 #include <algorithm>
 
+#include "Researcher.h"
+#include "Technician.h"
+#include "SecurityOfficer.h"
+#include "MedicalOfficer.h"
+#include "ContainmentSpecialist.h"
+
 // constructor
 Facility::Facility()
     : power(100),
@@ -308,6 +314,7 @@ void Facility::advanceDay()
     currentDay++;
     consumeDailyPower();
     monitorAnomalyStability();
+    processStaffContributions();
 }
 // consume daily power
 void Facility::consumeDailyPower()
@@ -322,6 +329,37 @@ void Facility::monitorAnomalyStability()
         if (anomaly.getStability() <= 30)
         {
             adjustFacilityStability(-5);
+        }
+    }
+}
+
+// Process daily contributions from available staff members.
+void Facility::processStaffContributions()
+{
+    for (const auto& staff : staffRoster)
+    {
+        // Skip staff members assigned to an active facility upgrade.
+        if (!isStaffAvailable(staff->getStaffId()))
+        {
+            continue;
+        }
+
+        // Researchers generate research points.
+        if (Researcher* researcher = dynamic_cast<Researcher*>(staff.get()))
+        {
+            researcher->conductResearch(*this);
+        }
+
+        // Technicians restore facility power.
+        else if (Technician* technician = dynamic_cast<Technician*>(staff.get()))
+        {
+            technician->restorePower(*this);
+        }
+
+        // Security Officers restore facility stability.
+        else if (SecurityOfficer* officer = dynamic_cast<SecurityOfficer*>(staff.get()))
+        {
+            officer->respondToSecurityThreat(*this);
         }
     }
 }

@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include "Game.h"
 #include "Helper.h"
 #include "Anomaly.h"
 #include "Facility.h"
@@ -95,6 +96,9 @@ int main()
 	// ==========================================
 	//             PROGRAM EXIT
 	// ==========================================
+
+	Game game;
+	game.run();
 
 	return 0;
 }

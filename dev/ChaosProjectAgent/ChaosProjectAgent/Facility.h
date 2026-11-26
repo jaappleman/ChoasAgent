@@ -49,5 +49,6 @@ public:
 	void advanceDay();
 	void consumeDailyPower();
 	void monitorAnomalyStability();
+	void processStaffContributions();
 	bool performAnomalyMaintenance(int anomaly_id, int repair_amount);
 };

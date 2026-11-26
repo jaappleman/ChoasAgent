@@ -143,6 +143,7 @@
     <ClCompile Include="Anomaly.cpp" />
     <ClCompile Include="ContainmentSpecialist.cpp" />
     <ClCompile Include="Facility.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MedicalOfficer.cpp" />
     <ClCompile Include="Researcher.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Anomaly.h" />
     <ClInclude Include="ContainmentSpecialist.h" />
     <ClInclude Include="Facility.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="MedicalOfficer.h" />
     <ClInclude Include="Researcher.h" />
