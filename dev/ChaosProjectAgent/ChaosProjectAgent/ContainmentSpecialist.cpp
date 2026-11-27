@@ -1,24 +1,43 @@
+
 #include "ContainmentSpecialist.h"
-#include "Facility.h"
+
 #include <iostream>
-// Initialize the shared Staff properties.
+
+#include "Facility.h"
+
+// ============================================================
+// ContainmentSpecialist.cpp
+// Purpose: Implements containment specialist duties and
+//          anomaly stabilization.
+// ============================================================
+
+// ===================== Constructor ==========================
+
 ContainmentSpecialist::ContainmentSpecialist(
     int staff_id,
     std::string staff_name,
     int hiring_cost,
-    int skill_level)
+    int skill_level
+)
     : Staff(staff_id, staff_name, hiring_cost, skill_level)
 {
 }
-// Display the ContainmentSpecialist's assigned duty.
+
+// ===================== Staff Duties =========================
+
 void ContainmentSpecialist::performDuty()
 {
     std::cout << getStaffName()
         << " is stabilizing facility anomalies. Skill Level: "
         << getSkillLevel() << '\n';
 }
-// Restore anomaly stability based on the specialist's skill level.
-void ContainmentSpecialist::stabilizeAnomaly(Facility& facility, int anomaly_id)
+
+// ================= Anomaly Management =======================
+
+void ContainmentSpecialist::stabilizeAnomaly(
+    Facility& facility,
+    int anomaly_id
+)
 {
     Anomaly* anomaly = facility.findAnomalyById(anomaly_id);
 
@@ -31,4 +50,3 @@ void ContainmentSpecialist::stabilizeAnomaly(Facility& facility, int anomaly_id)
     // Apply the specialist's skill level as a stability increase.
     anomaly->performMaintenance(getSkillLevel());
 }
-

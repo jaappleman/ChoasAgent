@@ -1,40 +1,66 @@
+
 #include "Anomaly.h"
+
+// ============================================================
+// Anomaly.cpp
+// Purpose: Implements anomaly identification, stability
+//          management, status reporting, and maintenance.
+// ============================================================
+
+// ======================== Includes ==========================
+
 #include <iostream>
-//default constructor
-Anomaly::Anomaly(int anomaly_id, std::string anomaly_name, int starting_stability)
+#include <algorithm>
+
+// ====================== Constructor =========================
+
+Anomaly::Anomaly(int anomaly_id, std::string anomaly_name,
+    int starting_stability)
     : anomalyId(anomaly_id),
     anomalyName(anomaly_name),
     anomalyStability(std::clamp(starting_stability, 0, 100))
 {
 }
-// display anomaly info
+
+// ======================== Display ===========================
+
 void Anomaly::displayInfo() const
 {
     std::cout << "Anomaly ID: " << anomalyId << '\n';
     std::cout << "Name: " << anomalyName << '\n';
     std::cout << "Stability: " << anomalyStability << "%\n";
 }
-// adjust anomaly Stability
+
+// ================ Stability Management ======================
+
 void Anomaly::adjustStability(int change_amount)
 {
-    anomalyStability = std::clamp(anomalyStability + change_amount, 0, 100);
+    anomalyStability = std::clamp(
+        anomalyStability + change_amount, 0, 100);
 }
-// get anomaly Stability
+
+void Anomaly::performMaintenance(int repair_amount)
+{
+    adjustStability(repair_amount);
+}
+
+// ======================= Getters ============================
+
 int Anomaly::getStability() const
 {
     return anomalyStability;
 }
-// get anomaly ID
+
 int Anomaly::getAnomalyId() const
 {
     return anomalyId;
 }
-// get anomaly Name
+
 std::string Anomaly::getAnomalyName() const
 {
     return anomalyName;
 }
-// get anomaly Status
+
 std::string Anomaly::getStatus() const
 {
     if (anomalyStability >= 70)
@@ -49,9 +75,4 @@ std::string Anomaly::getStatus() const
     {
         return "Critical";
     }
-}
-// increase anomaly Stability
-void Anomaly::performMaintenance(int repair_amount)
-{
-    adjustStability(repair_amount);
 }

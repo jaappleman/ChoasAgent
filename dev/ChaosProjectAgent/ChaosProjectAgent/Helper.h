@@ -1,12 +1,32 @@
 #pragma once
+
+// ============================================================
+// Helper.h
+// Purpose: Provides shared utilities for console presentation,
+//          input validation, randomization, and general
+//          programming operations.
+// ============================================================
+
+// ======================== Includes ==========================
+
 #include <iostream>
+#include <string>
 #include <vector>
-#include <stdlib.h>
-#include <random>
+
+#include <algorithm>
+#include <cmath>
+#include <climits>
+#include <cstdio>
+#include <cstdlib>
+#include <limits>
+#include <utility>
+
+// ===================== Helper Namespace =====================
 
 namespace Helper
 {
-	// defining const display color values for strings
+	// ================= Console Display Colors ================
+	
 	// BLUE
 	const std::string BLUE = "\033[34m";
 	const std::string LIGHT_BLUE = "\033[94m";
@@ -87,9 +107,8 @@ namespace Helper
 	const std::string HIDDEN = "\033[8m";
 	const std::string STRIKETHROUGH = "\033[9m";
 	
-	// In your Helper namespace Add the following static method
-	// CoinFlip
-	// This method is static
+	// ================= Random Number Utilities =================
+
 	static bool CoinFlip()
 	{
 		/// this seeds a different random number generator that will cause problems so I need to change it
@@ -102,145 +121,159 @@ namespace Helper
 		/// simplifying to use the same seed from main
 		return rand() % 2 == 1; // % 2 will = either 1 or 0 and return true for heads (1) or false for tails (0)
 	}
-	// anamoly containment title banner
+
+	// ================= Console Display =========================
+
+	// anamoly containment title banners
 	static void AnomalyBanner()
 	{
-		std::cout << Helper::BRICK_RED 
-			      << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++X&&&&&+++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++xXX&&&+++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&&&+++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++x+++++++++++++++++x++++++++++&&&+++++++++++++++++++++++\n";
-		std::cout << "+++++x$&&&&&&&&Xx+++$&&&&$x$&&&&&$x++++++xx$&&&&&&&X++++$&&&&$X&&&&&&$xx$&&&&&$x++++++xX&&&&&&&&Xx++++++&&&+++X&&&&&&x++$&&&&&$+++\n";
-		std::cout << "+++++$&&XxxxX$&&$x++++X&&&&XxxxX&&&X+++++$&&&XxxXX&&&X++++X&&&$Xxxx$&&&&$XxxX&&&X++++x$&&XXxxx$&&&x+++++&&&+++++$&&$x++++X&&&x++++\n";
-		std::cout << "+++++X$X+++++x$&&X++++X&&$++++++X&&$++++X&&$++++++X&&&x+++X&&$++++++$&&$x++++x&&&+++++X$X++++++$&&X+++++&&&+++++x$&&X+++x$&&X+++++\n";
-		std::cout << "++++++++xXXXXX$&&X++++X&&$++++++X&&$+++x$&&X+++++++$&&X+++X&&$++++++X&&X++++++&&&x+++++++xXXXXX$&&X+++++&&&++++++X&&&++xX&&$++++++\n";
-		std::cout << "+++++X&&&&&&&&&&&X++++X&&$++++++X&&$+++x$&&X+++++++$&&X+++X&&$++++++X&&X++++++&&&x++++x$&&&&&&&&&&X+++++&&&+++++++X&&$+x&&&x++++++\n";
-		std::cout << "++++X&&&x++++x$&&X++++X&&$++++++X&&$+++x$&&X++++++x$&&x+++X&&$++++++X&&X++++++&&&x+++x&&&X+++++$&&X+++++&&&++++++++$&&X&&&x+++++++\n";
-		std::cout << "++++X&&$+++++X&&&X++++X&&$++++++X&&$++++X&&&x+++++X&&$x+++X&&$++++++X&&X++++++&&&x+++X&&$+++++X&&&X+++++&&&x+++++++x&&&&&X++++++++\n";
-		std::cout << "++++x&&&&$$&&&&&&$X+X$$&&&$Xx+X$$&&&$Xx++x&&&&$$&&&&$+++X$$&&&$XxxX$&&&&$XxxX$&&&$$x++$&&&$$&&&&&&$X+xX$&&&$Xx++++++X&&&$x++++++++\n";
-		std::cout << "++++++X$$&$$X+X&&&$+X$$$$$$$x+X$$$$$$$x++++x$$&&$$Xx++++X$$$$$$$xx$$$$$$$$xx$$$$$$$X+++X$$&$$X+X&&&$+X$$$$$$$X+++++++$&&X+++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++$&&X++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++xXX$&&$x++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++X&&&&X++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++xXXx+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++X&x++X&X+++++++++++++++++++++++++++++++++xx++++++++++++++x$&x+++++++++++++++++++++++++++++++++++++++++++++++++++++xx++++++\n";
-		std::cout << "+++++++X&X++x&$x+++++++++++++++++++++++++++++++++X&X+++++++x+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++x+x&$x+++++\n";
-		std::cout << "++++++x&$+++$&x++x&&&&&&X++X&&&&&$x+$&&$$&&&$x+x$&&&&X+X&&&&&$x+x&&&x+X&&$$&&&&x+x$&&$&&&&X$&&&$x++xX&&&&&X+X&&&$&&&&X++X&&&&$++++\n";
-		std::cout << "++++++$&x++X&X++x&&x++x&$xX&$+++X&$x+X&$x++X&$+++X&X+++XX+++X&$++x$&x++X&$x++X&$x++X&X+++&&X++X&$++X&$+++$&X+x$&x++x&&x++x&$x+++++\n";
-		std::cout << "+++++x&X+++&$+++X&$+++++++X&X++++&&X+X&$+++X&$+++X&X+++xX&&&&&$++x$&x++X&$+++x&$x++X&x+++$&+++x&&++$&&&&&&&X++$&x+++$&X++x&$x+++++\n";
-		std::cout << "++++x&$++x$$x+++X&&x+++$XxX&$+++x&&x+X&$+++X&$x++X&X+++&&x++X&$++x$&x++X&$+++x&$x++X&x+++$&+++x&&++X&X+++++++x$&x++x$&X++x&$x+++++\n";
-		std::cout << "+++x$&x++X&X+++++X&&$$&&X++X&&X$&$x+X$&&X+X$&$Xx+x&$XX+$&$X$&&&xxX&&$Xx$&&Xxx$&&XxX$&$XxX&&$xX$&&XxxX&$X$$&xxX&&$xxX&&$x++&&$Xx+++\n";
-		std::cout << "+++X&x++X&X++++++++xxxx++++++xxxx+++xxxxx+xxxxx+++xxxx++xxxx+xxxxxxxxxxxxxx+xxxxxxxxxxxxxxxxxxxxxx++++xxxx++xxxxxx+xxxxx+++xxxx+++\n" 
-			<< Helper::RESET;
+		std::cout << BRICK_RED << R"(
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxx)" << BLINK << SCARLET << R"([ a Joshua Appleman creation ])" << RESET << BRICK_RED << R"(xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+^^^^^^^+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;       +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx++;;    +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+x    +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx    +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxx+++^^^^+++xxxxxxx++++++++xx++++++++xxxxxxxxxxxxxx+++^^^+++xxxxxx+++++++++x+++++++++xxxx++++++++xxxxxxxxxxxxxx+++^^^^+++xxxxxxxxxxx    +xxx+++++++++++xx+++++++++++xxx
+xxxxxxx+:           .++xxxx:      :+:        :+xxxxxxxxx++.          ;+xxx++       ':        .+x+:        ;+xxxxxxxx+;            ++xxxxxxxx    +xxx+        .++x;        :+xxx
+xxxxxx+     :;+;:     :+xxx+x+:      .+++;     ;xxxxxxx+.    .;+;:     ++x+xx+;      :+++;         ;++;     +xxxxxx+     .;++;     :+xxxxxxx    +xxxxx+    .+xx+xxx;    :++xxxx
+xxxxxx+   :xxxxxxx;    ;xxxxxx;    ;+xxxxx+;    +xxxxx+    :+xxxxx+;    +xxxxx+    :+xxxxx+:     ++xxxxx:   .xxxxxx+   .+xxxxxx+    ;+xxxxxx    +xxxxxx;    ;xxxxxx:    +x+xxxx
+xxxxxx+++++xxxxxxx+.   ;xxxxxx;    xx+xxxxx+    ;xxxxx:   :+xxxxxxxx;    xxxxx+    ;xxxxxxx;    ;+xxxx+x+    +xxxxx+++++xxxxxxxx:   :+xxxxxx    +xxxxxx+:    +xxxx;    +xxxxxxx
+xxxxxxxxx+x++^^^^^^    ;xxxxxx;    xxx+xxxx+.   ;xx+x+    ;xxxxxxxxxx    +xxxx+    ;xxxxxxx+    ;xxxxxxxx    +xxxxxxxxxx++^^^^^^    :+xxxxxx    +xxxxxxx+    :xx++    ;+xxxxxxx
+xxxxxxx+;              ;xxxxxx;    xxxxxxxx+.   ;xxxx;    ;xxxxxxxxxx    ;xxxx+    ;xxxxxxx+    +xxxxxxxx    +xxxxxx+;              :++xxxxx    +xxxxxxxx;    ;xx:   .+xxxxxxxx
+xxxxxx+     .;+++++    ;xxxxxx;    xxxxxxxx+.   ;xxxx+    ;xxxxxxxxxx    +xxxx+    ;xxxxxxx+    +xxxxxxxx    +xxxxx+     .;;++++.   :++xxxxx    +xxxxxxxx+;   .++    ;xxxxxxxxx
+xxxx++.   .xxxxxxx+.   ;xxxxxx;    xxxxxxxx+.   ;xxxx+.   :+xxxxxxxx+    +xxxx+    ;xxxxxxx+    +xxxxxxxx    +xxxx+:    +xxxxxxx:   :++xxxxx    +xxxxxxxxx+.   :.   ;+xxxxxxxxx
+xxxxx+    ;xxxxxx+;    ;xxxxxx;    xxxxxxxx+.   ;xxxxx;    ;+xxxxxx+    ;xxxxx+    ;xxxxxxx+    +xxxxxxxx    +xxx++:   :xxxxxx++    :++xxxxx    +xxxxxxxxxx+       .+xxxxxxxxxx
+xxxx++:    ;+xx+:      ;xxx++x;    +xxxxxxx+.   :+xxxxx;     ++xx+.    ;xxx+xx+    ;xxxxxx++    ;+xxx++x+    +xxxx+;    ;+xx+:      :+x+xxxx    +x+xxxxxxxxx;      ;xxxxxxxxxxx
+xxxxx++:          ;:     +x:          +x+          :xxx++:           .+x+x++          :x;          ;++          ;xx+;          ::     +x;          ;xxxxxxxx+:    ;+xxxxxxxxxxx
+xxxxxxxx+;.....;++x;.   :+x;..........xx+;.........;xxxxxx++;.....;++xxxxxx+:........:+x+;........:+x+:........:+xxx+++;....;++x+:    +++:........:+xxxxxxxxx:   .+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxx+xxxxxxxxxxx+xx+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+xxxxxxxxxxxxxxxxxxxxxxxxxxxx+xxxxxxxxxxxx+xxxxxxxxxxxxxx+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx;    +xxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;    ;xxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+       ;+xxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;     .+xxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx++++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+xxxx++xxxxxxxxxxxxxxx
+xxxxxxxxxxx+;++xxx++++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+  :+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxx++  ;xxx+. :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;  +xxxxxxxxxxxxxxxxxx++++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+  :+xxxxxxx
+xxxxxxxxx+: .+x++: .+xx+xxxxx+xxx+xxxxxx+xxxx+xxxxxxxx+xxxxxxxxx+x;  +x+xxxx+xxx+xx+xxxxxxxxxxxxxxxxxxxxxxxx+xxxxxxxx+xxxxxxxxxxxxxxxx+xxx+xxx+x+xxx+xxxxxxxxxxx+xx+  :+xxxxxxx
+xxxxxxxxx;  +xxx;  ;xxx+;       :+xxx;       ;xx;    :.    .++xx;      :+x+        ;+x+.   :+x;    ;.     +xx+:    :     ;+.    :+xxxxx+      .+x+:    ;     :+xx+       ++xxxx
+xxxxxxxx+  ;xxx+  ;+xx+.  ;+x+;  ++x:  ;+++:  :xx+;   ;+++.  +xx++:  +++x+:  ++x+:  ;xxx+  :+xx+:   ;+++   ++x++.  :+++:   :+++   +xxx:  :+++:  ++x+.  .+++;  :+x+++  :+++xxxxx
+xxxxxxx+: :xxx+: :+xxx:  ;xxxxx:.+x+  ;xxxx+:  +xx;  :xxxx;  ;+xxx;  +xxxx+++xxxx;  :xxx+  :+xxx;  +xxx++  ;+xx+.  xxxx+  .+xxx;  ;xx+  .;++++  :xx+:  +xxx+:  +xxx+  :+xxxxxxx
+xxxxxx+;  +xxx;  +xxxx:  +xxxxxxxxx;  +xxxxx;  ;xx;  :xxxx;  ;+xxx;  +xxxx+;.       :xxx+  :+xxx;  +x+xx+  ;xxx+.  xxx++  :xxxx;  ;x+;          :xx+:  +xxx+:  +xxx+  :+xxxxxxx
+xxxxxx+  +xxx+  ;+xxxx:  ;xx++++++x+  ;xxxxx;  ;xx;  :+xxx;  ;+xxx;  +xxx+   ;+xx;  :xxx+  :+xxx;  +xxxx+  ;xxx+.  x+xx+  :xxxx;  ;xx;  ;+xxxxxxxxx+:  +xxx+:  +xxx+  :+xxxxxxx
+xxxx++. :xxx+: :+xxxxx+   +xxx;  ;x+.  +xx++  :x+x;  :+xxx;  ;+xxx;  +xxx+  .xxx+:  :xxx+  :+xxx;  +xxxx+  ;xxx+.  x+xx+  :xxxx;  ;xxx.  ++xxx++xxx+:  +xxx+:  +xxx+  :+xxxxxxx
+xxxx+;  +xx+;  +xxxxxxx+:       ++xx+;       ;+x;      ;+      ;xx+     x+;          ;+.     :;      ++      ;:     .+.     :;      ;xx;        ++:      +;     .+xx:    :+xxxx
+xxxx+  +xxx+  ;xxxxxxxxxx+++++++xx+xxx+++++++xxx++++++++++++++++x++x++++xxx+++++++++++++++++++++++++++x++++++++++++++++++++++++++++++xxxx++++++xxx+++++++x++++++++xxx+++++xxxxx
+xxxx+++xxxx+++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx++;.     .:;+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+:                ;+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;                     :+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx++                         ;+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;                           .++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;                             .+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+           )" << BLINK << LEMON << R"(.+xxXxxx:)" << RESET << BRICK_RED << R"(           ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+x:          )" << BLINK << LEMON << R"(+xXxXxXxxXx.)" << RESET << BRICK_RED << R"(          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          )" << BLINK << LEMON << R"(:xXxxxxxxxxx+)" << RESET << BRICK_RED << R"(          ++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          )" << BLINK << LEMON << R"(;XxXxxxxxxxXx.)" << RESET << BRICK_RED << R"(         ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx++          )" << BLINK << LEMON << R"(:xXxxxxxxxxx+)" << RESET << BRICK_RED << R"(          ;+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;:             )" << BLINK << LEMON << R"(;xxxxxxxxx+)" << RESET << BRICK_RED << R"(              ;+x+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;.                  )" << BLINK << LEMON << R"(;+xxx++.)" << RESET << BRICK_RED << R"(                  ;++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;                                                   :++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;                                                         :+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+:                                                               .+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+:                   :++++:                    ;+x+;                    ;+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx++.                   :++xxxxxx+;.              :++xxx+xx+;.                   ;+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxx++<^^^^^^>++xxxxx+;.                   :+xxxxxxxxxxxxx+:         .+xxxxxxxxxxxxx+;.                   :++x++<^^^^^^>++xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxx++:              '^^'                   ;+xx+xxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxx++.                                 :;+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxx+;                                     ;+xxxxxx+xxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxx+:                                 :+xxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxx+;                                   .++xxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxx+:                                :+x+xxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxx+.                                 :++xxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxx++;                               +xxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx+.                               :++xxxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxxxx++                              +xxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxx+:           )" << BLINK << LIME << R"(:+xxxx+:)" << RESET << BRICK_RED << R"(            +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxxxx+:           )" << BLINK << NEON_PURPLE << R"(:+xxxx+:)" << RESET << BRICK_RED << R"(           .+xxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxx;          )" << BLINK << LIME << R"(.+xXxxxXxXx:)" << RESET << BRICK_RED << R"(          ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxxxx;          )" << BLINK << NEON_PURPLE << R"(:xxxxxxxxxx:)" << RESET << BRICK_RED << R"(          ;xxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxx:         )" << BLINK << LIME << R"(.xxxXxxxxXxxx.)" << RESET << BRICK_RED << R"(         :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxxxx:         )" << BLINK << NEON_PURPLE << R"(.xXxxxxxxxXxx.)" << RESET << BRICK_RED << R"(         :xxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxx:         )" << BLINK << LIME << R"(:xxXxxxxxxxxx+)" << RESET << BRICK_RED << R"(          +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxxx+:         )" << BLINK << NEON_PURPLE << R"(;xXxxxxxxxXxx;)" << RESET << BRICK_RED << R"(         .+xxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxx:         )" << BLINK << LIME << R"(.xxXxxxxxxxxx:)" << RESET << BRICK_RED << R"(           .;+xxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxxx+.         )" << BLINK << NEON_PURPLE << R"(:xXxxxxxxxXxx:)" << RESET << BRICK_RED << R"(         :xxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxx;          )" << BLINK << LIME << R"(;xXXXXXxxXx;)" << RESET << BRICK_RED << R"(                ;++xxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxx++:            )" << BLINK << NEON_PURPLE << R"(;xxXxXxXxxx;)" << RESET << BRICK_RED << R"(          ;xxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxx+.           )" << BLINK << LIME << R"(+xxxXXx+)" << RESET << BRICK_RED << R"(                     ;+xxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxx+.                 )" << BLINK << NEON_PURPLE << R"(+xxxxxX+)" << RESET << BRICK_RED << R"(           .+xxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx+                                           :+xx+xxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxx+;                                        +xxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxx+                                             :++xxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxx+;                                          +xxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxx+:                        .;:                   .+xx+xxxxxxxxxx;         .+xxxxxxxxxxxx+:                                           .+xxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxx+.                     ;xxxx+:                   .;+xxxxxx++:           :;+xxxxxxx+:                   :;++.                    .+xxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxx+;                :+xxxxxxxxx+;                   .;+x+:                  ;+++:                   :+xxxxxx+:                :+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxx+          ;+xxxxxxxxxxxxxxx+;                                                             :+xxxxxxxxxxxxx+;:           ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxx+                                                       ;+xxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxx+:                                                ;xxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxx++:                  )" << BLINK << SILVER << R"(.;;;:)" << RESET << BRICK_RED << R"(                  .++xxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxxx+x+;             )" << BLINK << SILVER << R"(+xxxxXXx+:)" << RESET << BRICK_RED << R"(            :++xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.         )" << BLINK << SILVER << R"(.xXxxxxxXxxx:)" << RESET << BRICK_RED << R"(          +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          )" << BLINK << SILVER << R"(;xXxxxxxxxxXx)" << RESET << BRICK_RED << R"(          +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          )" << BLINK << SILVER << R"(;xXxxxxxxxxXx)" << RESET << BRICK_RED << R"(          +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.         )" << BLINK << SILVER << R"(.xXxxxxxxXxx;)" << RESET << BRICK_RED << R"(          +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxxx+x+;            )" << BLINK << SILVER << R"(.+xxxxXXxx:)" << RESET << BRICK_RED << R"(            :++xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxxx;                  )" << BLINK << SILVER << R"(:;++:)" << RESET << BRICK_RED << R"(                  :++xxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxx+:                                                +xxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxx+.                                                      ;+xxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxxxxx+;.                                                            ;+xxxxxxx+;:.                   .:;+xxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx          ;xxxxxxxxxxxxx+;.                   ;+++.                  ;++;.                   :+x+;                             :+xxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxx+           ;;+xxxxxxx+;                    ;+xxxxxx++:           .;+xxxxxxx+.                                                    :+xxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx++.                ;+++;                    ;xxxxxxxxxxxxx;         .+xxxxxxxxxxxx+:                                                   +xxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxx+;                                        .+xxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxx+;                                                .+xxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxx;                                       :+xx+xxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxx+;                                              ;x+xxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxx:                                     ;+xxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxx+;              )" << BLINK << ORANGE << R"(.##################)" << RESET << BRICK_RED << R"(          :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxx:              )" << BLINK << ELECTRIC_BLUE << R"(.)" << RESET << BRICK_RED << R"(                    ;++xxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxx+;           )" << BLINK << ORANGE << R"(.##################.)" << RESET << BRICK_RED << R"(         :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxx;           )" << BLINK << ELECTRIC_BLUE << R"(:+xXxxXx;)" << RESET << BRICK_RED << R"(             ;+xxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxx;          )" << BLINK << ORANGE << R"(.##################.)" << RESET << BRICK_RED << R"(         :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx+:          )" << BLINK << ELECTRIC_BLUE << R"(+xXxXxxXxXx:)" << RESET << BRICK_RED << R"(          +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxx;          )" << BLINK << ORANGE << R"(.##################.)" << RESET << BRICK_RED << R"(         :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx+          )" << BLINK << ELECTRIC_BLUE << R"(+xxxxxxxxXxxx)" << RESET << BRICK_RED << R"(          ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxx;          )" << BLINK << ORANGE << R"(.##################.)" << RESET << BRICK_RED << R"(         :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx+          )" << BLINK << ELECTRIC_BLUE << R"(+XxxxxxxxXxXx.)" << RESET << BRICK_RED << R"(         ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxx;          )" << BLINK << ORANGE << R"(.##################.)" << RESET << BRICK_RED << R"(         :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx+.         )" << BLINK << ELECTRIC_BLUE << R"(:xxXxxxxxXXx+)" << RESET << BRICK_RED << R"(          ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxx;          )" << BLINK << ORANGE << R"(.##################.)" << RESET << BRICK_RED << R"(         :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxx:          )" << BLINK << ELECTRIC_BLUE << R"(:xxXxxxxxx+)" << RESET << BRICK_RED << R"(           +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxx;          )" << BLINK << ORANGE << R"(.##################.)" << RESET << BRICK_RED << R"(         :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxx+            )" << BLINK << ELECTRIC_BLUE << R"(.+XXXx;)" << RESET << BRICK_RED << R"(               :+xxxxxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxxxxx;          )" << BLINK << ORANGE << R"(.##################.)" << RESET << BRICK_RED << R"(         :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxx+                                    :+xxxxxxxxxxxxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxxxxx+;            )" << BLINK << ORANGE << R"(.##################.)" << RESET << BRICK_RED << R"(         :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxx+                                      .++xxxxxx+xxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxxxxxx+:               )" << BLINK << ORANGE << R"( """""""""""""""""" )" << RESET << BRICK_RED << R"(         :+xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxx+:                                       .;+xx+xxxxxxxxxxxxxx;         .+xxxxxxxxxxxxxxxx++:                                               ;xxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxx+:                    :                   .;+xxxxxxxxxxxxx+:         .+xxxxxxxxxxxxx++:                                                 :+xxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxx+:              ;+xxx+;                    ;++xxxxxx++:              ;++xxx+xx++:                                                   :+xxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxx+xxxxxxxx++;..;+xxxxxxxxxxxxx+.                   ;++x+:                    ++x++.                   :.                                +xxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+:                                                                ;xxxxx;                           ;+xxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx++:                                                         .++xxxx+xxxx+++++++++++++++++++++++++xxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;                                                   :++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;                   )" << BLINK << PINK << R"(:++xx+;.)" << RESET << BRICK_RED << R"(                  :++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;.             )" << BLINK << PINK << R"(:xxxxxxxxx+)" << RESET << BRICK_RED << R"(              :+x+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+x+;          )" << BLINK << PINK << R"(:xXxxxxxxxxx+)" << RESET << BRICK_RED << R"(          :+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          )" << BLINK << PINK << R"(;XxXxxxxxxxXx.)" << RESET << BRICK_RED << R"(         ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          )" << BLINK << PINK << R"(;xXxxxxxxxxx+)" << RESET << BRICK_RED << R"(          ++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+x:          )" << BLINK << PINK << R"(+xXxXxXxxXx.)" << RESET << BRICK_RED << R"(          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+           )" << BLINK << PINK << R"(.+XxxXxx;)" << RESET << BRICK_RED << R"(           :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;                              +xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;                           .++xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx++                         :+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+;                     :+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+xxx+.                ;+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx++:       :;+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	)" << Helper::RESET;
 	}
-	// anamoly symbol banner
-	static void AnomalySymbol()
-	{
-		std::cout << Helper::BRICK_RED 
-			      << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;.      :+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.    " 
-			<< Helper::BLINK << Helper::ORANGE << ".." << Helper::RESET << Helper::BRICK_RED 
-			<< "    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;   " 
-			<< Helper::BLINK << Helper::ORANGE << ":++;;" << Helper::RESET << Helper::BRICK_RED 
-			<< "   .+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++:   " 
-			<< Helper::BLINK << Helper::ORANGE << ":+++;" << Helper::RESET << Helper::BRICK_RED 
-			<< "    ;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++;:        " 
-			<< Helper::BLINK << Helper::ORANGE << ".." << Helper::RESET << Helper::BRICK_RED 
-			<< "       .;+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++.     .;;.      :+:      ;++x+++++x+++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++;:::;+;:     :;++++++   ;++++++:.    .:;::::;+++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++.           .++++++++++   ;+++++++++;           ;+++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++   " 
-			<< Helper::BLINK << Helper::PURPLE << ".:;:." << Helper::RESET << Helper::BRICK_RED 
-			<< "   ;++++++++++++   ;+++++++++++    " 
-			<< Helper::BLINK << Helper::GREEN << ":;;." << Helper::RESET << Helper::BRICK_RED 
-			<< "   ;++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++:   " 
-			<< Helper::BLINK << Helper::PURPLE << ";+++;" << Helper::RESET << Helper::BRICK_RED 
-			<< "   :++++++++++++   ;++++++++x+;   " 
-			<< Helper::BLINK << Helper::GREEN << ";+;++." << Helper::RESET << Helper::BRICK_RED 
-			<< "  :++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++;   " 
-			<< Helper::BLINK << Helper::PURPLE << ":;+;:" << Helper::RESET << Helper::BRICK_RED 
-			<< "     :;+++++++++   ;+++++++++:.   " 
-			<< Helper::BLINK << Helper::GREEN << ".;+;:" << Helper::RESET << Helper::BRICK_RED 
-			<< "   :++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++:         .     .;++++++   ;++++++:              .+++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++:     :++++:     .;+;.   .:++:     .;++;.    .+++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++;   ;++++++++:.                :;++++++++   :+++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++++   ;+++++++++++:   " 
-			<< Helper::BLINK << Helper::SILVER << ".;;;:" << Helper::RESET << Helper::BRICK_RED 
-			<< "   .;+++++++++++   :+++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++;   ;+++++++++++;   " 
-			<< Helper::BLINK << Helper::SILVER << ";+++;" << Helper::RESET << Helper::BRICK_RED 
-			<< "   .++++++++++++   :+++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++++   ;++++++++++:.    " 
-			<< Helper::BLINK << Helper::SILVER << ":;;." << Helper::RESET << Helper::BRICK_RED 
-			<< "    :+++++++++++   :+++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++;   ;+++++++:                   :;++++++;   .+++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++;   :++x+.      ;+++;   :++++:      .           :x++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++;             :;+++++++   ;+++++++:      " 
-			<< Helper::BLINK << Helper::GOLD << ":::::::" 
-			<< Helper::RESET << Helper::BRICK_RED << "   :++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++:   " 
-			<< Helper::BLINK << Helper::ELECTRIC_BLUE << ".;;." << Helper::RESET << Helper::BRICK_RED 
-			<< "    .+++++++++++   ;++++++++++.  " 
-			<< Helper::BLINK << Helper::GOLD << ":X$XX$XX" << Helper::RESET << Helper::BRICK_RED 
-			<< "   :++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++   " 
-			<< Helper::BLINK << Helper::ELECTRIC_BLUE << ":;+++:" << Helper::RESET << Helper::BRICK_RED 
-			<< "   ++++++++++++   ;++++++++++.  " 
-			<< Helper::BLINK << Helper::GOLD << ":$X$X$XX" << Helper::RESET << Helper::BRICK_RED 
-			<< "   :++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++.  " 
-			<< Helper::BLINK << Helper::ELECTRIC_BLUE << ".;;;;." << Helper::RESET << Helper::BRICK_RED 
-			<< "  .++++++++++++   ;++++++++x+.  " 
-			<< Helper::BLINK << Helper::GOLD << ":$X$X$XX" << Helper::RESET << Helper::BRICK_RED 
-			<< "   :++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++.            :+++++++++   ;++++++++;.   " 
-			<< Helper::BLINK << Helper::GOLD << ":xxxxxX+" 
-			<< Helper::RESET << Helper::BRICK_RED << "   :++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++;.    .;;.     :++++++   :+++x+:                  +++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++:     ..       .:      ;++;:.......:;++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++:      " 
-			<< Helper::BLINK << Helper::SOFT_PINK << ":::." << Helper::RESET 
-			<< Helper::BRICK_RED << "     .;++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;   " 
-			<< Helper::BLINK << Helper::SOFT_PINK << ";+++;" << Helper::RESET 
-			<< Helper::BRICK_RED << "    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;   " 
-			<< Helper::BLINK << Helper::SOFT_PINK << ".;+;:" << Helper::RESET 
-			<< Helper::BRICK_RED << "   :+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;         .++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++:.    :;+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ " 
-			<< Helper::BLINK << Helper::SCARLET 
-			<< "[anamoly//containment]" << Helper::RESET << Helper::BRICK_RED << " ++++++++++\n";
-		std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" 
-			<< Helper::RESET << std::endl;
-	}
-	// creating a multicolor banner for the RPG title screen
-	static void BannerRPG()
-	{
-		std::cout << PURPLE
-			<< "\n============================================\n";
-		std::cout << RED
-			<< "     EVERYTHING ";
-		std::cout << ORANGE
-			<< "EVERYWHERE ";
-		std::cout << GREEN
-			<< "ALL AT ONCE!\n";
-		std::cout << CYAN
-			<< "           A MULTIVERSE BATTLE\n";
-		std::cout << GOLD
-			<< "============================================\n";
-		std::cout << RESET << "\n";
-	}
+
+	// ================= Input Validation ========================
 
 	static bool IntegerValidation(char* input)
 	{
@@ -267,6 +300,8 @@ namespace Helper
 	//  Good Test case is to use user input to use this as a validation.
 	//  Hint: You will need to do independent research for determining if the data entered in the char* is a valid integer value.
 
+	// ================= Number Conversion =======================
+
 	static void PrintIntegerBinary(int* num)
 	{
 		if (num == NULL) /// if statement to check for a NULL pointer
@@ -290,6 +325,8 @@ namespace Helper
 	//  Bitset is NOT allowed in this function
 	//  This function must print all 32 bits of the passed integer
 
+	// ================= Sorting Utilities =======================
+
 	static void BubbleSort(int* arr, int size)
 	{
 		for (int i = 0; i < size - 1; i++) /// iterates through each position in the array, ititiating a second for loop to iterate through the array from that position, moving right after the inner loop completes
@@ -307,6 +344,8 @@ namespace Helper
 	//  It should take an array and its size as parameters and sort the array in ascending order.
 	//  Example parameters : int* arr, int size(pointer to the array and its size).
 	//  Return type: void
+
+	// ================= Console Utilities =======================
 
 	static void ClearInputBuffer()
 	{
@@ -361,42 +400,101 @@ namespace Helper
 	//   Return type : bool(true if valid, false if invalid)
 	//   Good Test case is to use user input to use this as a validation.
 
-	static int RandomNumberGenerator(int min, int max)
+	// RandomNumberGenerator
+	// Description: Generates a random integer within an inclusive range.
+	static int RandomNumberGenerator(int min = 1, int max = 100)
 	{
-		int randomInt = rand() % (max + 1); /// assign a random value between the min and max values, default is 1-100, to the int variable randomInt
-		return randomInt; /// return result
+		if (min > max)
+		{
+			std::cout << "Invalid random number range.\n";
+			return 0;
+		}
+
+		return min + (rand() % (max - min + 1));
 	}
-	//  Description: Generates a random number within a given range, with a default range specified by the method.
-	//	It can optionally allow for the specification of different ranges for flexibility.
-	//  Example parameters : int min = 1, int max = 100 (the min and max values for the random number).
-	//  Return type : int(the generated random number)
 
 	// PrintIntegerHex
-	//  Description : Prints the hexadecimal representation of an integer passed as a pointer.
-	//  Example parameters : int\ * num(pointer to the integer to convert).
-	//  Return type : void
+	// Description: Prints the hexadecimal representation of an integer.
+	static void PrintIntegerHex(int* num)
+	{
+		if (num == nullptr)
+		{
+			std::cout << "Invalid integer pointer.\n";
+			return;
+		}
+
+		std::cout << "Hexadecimal: 0x"
+			<< std::hex << *num
+			<< std::dec << '\n';
+	}
 
 	// PrintIntegerOct
-	//  Description : Prints the octal representation of an integer passed as a pointer.
-	//  Example parameters : int\ * num(pointer to the integer to convert).
-	//  Return type : void
+	// Description: Prints the octal representation of an integer.
+	static void PrintIntegerOct(int* num)
+	{
+		if (num == nullptr)
+		{
+			std::cout << "Invalid integer pointer.\n";
+			return;
+		}
+
+		std::cout << "Octal: "
+			<< std::oct << *num
+			<< std::dec << '\n';
+	}
 
 	// UserInputBool
-	//  Description : Prompts the user to input a boolean value(true or false).The method should handle invalid inputs(such as non - boolean values) and ensure a valid boolean is returned.
-	//  Example parameters : bool\ * input(pointer to the boolean variable to store the input).
-	//  Return type : void
+	// Description: Prompts the user for a valid boolean value.
+	static void UserInputBool(bool* input)
+	{
+		if (input == nullptr)
+		{
+			std::cout << "Invalid boolean pointer.\n";
+			return;
+		}
 
+		std::string userInput;
+
+		while (true)
+		{
+			std::cout << "Enter true or false: ";
+			std::cin >> userInput;
+
+			if (userInput == "true" || userInput == "1")
+			{
+				*input = true;
+				break;
+			}
+			else if (userInput == "false" || userInput == "0")
+			{
+				*input = false;
+				break;
+			}
+
+			std::cout << "Invalid input. Please enter true or false.\n";
+		}
+	}
+
+	// ================= Integer Utilities =======================
+
+	// IntegerSwap
+	// Description: Swaps the values of two integers.
 	static void IntegerSwap(int* a, int* b)
 	{
-		printf("Before: a: %d b: %d \n", *a, *b); /// print the starting values of the int variables
-		int tempInt = *b; /// assign the value on int b to int tempInt
-		b = a; /// assign the value of int a to int b
-		a = &tempInt; /// assign the value of tempInt (original value of int b) to int a
-		printf("\nAfter: a: %d b: %d \n", *a, *b); /// print the new values of the int variables
+		if (a == nullptr || b == nullptr)
+		{
+			std::cout << "Invalid integer pointer.\n";
+			return;
+		}
+
+		printf("Before: a: %d b: %d \n", *a, *b);
+
+		int tempInt = *a;
+		*a = *b;
+		*b = tempInt;
+
+		printf("\nAfter: a: %d b: %d \n", *a, *b);
 	}
-	//  Description : Swaps two integer values.The method should take the integers by reference so that their values are swapped in place.
-	//  Example parameters : int\ * a, int\* b(pointers to the integers to swap).
-	//  Return type : void
 
 	static bool IsEven(int* num)
 	{
@@ -409,19 +507,58 @@ namespace Helper
 	//  Return type : bool(true if even, false if not)
 
 	// GetMaxValue
-	//  Description : Compares two integers and returns the larger value.The method should dereference the two integer pointers to access the values they point to and return the maximum of the two.
-	//  Example parameters : int\ * num1, int\* num2(pointers to the integers).
-	//  Return type : int(the maximum value)
+	// Description: Returns the larger of two integers.
+	static int GetMaxValue(int* num1, int* num2)
+	{
+		if (num1 == nullptr || num2 == nullptr)
+		{
+			std::cout << "Invalid integer pointer.\n";
+			return 0;
+		}
+
+		return (*num1 > *num2) ? *num1 : *num2;
+	}
 
 	// GetMinValue
-	//  Description : Compares two integers and returns the smaller value.Similar to GetMaxValue, but returns the minimum of the two values.
-	//  Example parameters : int\ * num1, int\* num2(pointers to the integers).
-	//  Return type : int(the minimum value)
+	// Description: Returns the smaller of two integers.
+	static int GetMinValue(int* num1, int* num2)
+	{
+		if (num1 == nullptr || num2 == nullptr)
+		{
+			std::cout << "Invalid integer pointer.\n";
+			return 0;
+		}
+
+		return (*num1 < *num2) ? *num1 : *num2;
+	}
 
 	// ClampInteger
-	//  Description : Clamps a given integer between a specified minimum and maximum value.If the integer is less than the minimum, it is set to the minimum.If it's greater than the maximum, it is set to the maximum.
-	//  Example parameters : int\ * value, int min, int max(pointer to the value, and the min and max range).
-	//  Return type : void
+	// Description: Clamps an integer between a specified minimum and maximum.
+	static void ClampInteger(int* value, int min, int max)
+	{
+		if (value == nullptr)
+		{
+			std::cout << "Invalid integer pointer.\n";
+			return;
+		}
+
+		if (min > max)
+		{
+			std::cout << "Invalid range: minimum cannot exceed maximum.\n";
+			return;
+		}
+
+		if (*value < min)
+		{
+			*value = min;
+		}
+		else if (*value > max)
+		{
+			*value = max;
+		}
+	}
+
+	// ================= Mathematical Utilities ==================
 
 	static bool IsPrime(int num)
 	{
@@ -458,9 +595,31 @@ namespace Helper
 	//  Return type : bool(true if prime, false otherwise)
 
 	// UserInputChar
-	//  Description : Prompts the user to input a single character.The method should validate the input to ensure only a single character is entered.
-	//  Example parameters : char\ * input(pointer to the character to store the input).
-	//  Return type : void
+	// Description: Prompts the user to enter exactly one character.
+	static void UserInputChar(char* input)
+	{
+		if (input == nullptr)
+		{
+			std::cout << "Invalid character pointer.\n";
+			return;
+		}
+
+		std::string userInput;
+
+		while (true)
+		{
+			std::cout << "Enter a single character: ";
+			std::cin >> userInput;
+
+			if (userInput.length() == 1)
+			{
+				*input = userInput[0];
+				break;
+			}
+
+			std::cout << "Invalid input. Please enter exactly one character.\n";
+		}
+	}
 
 	static bool ValidateRange(int value, int min, int max)
 	{
@@ -483,9 +642,24 @@ namespace Helper
 	//  Return type : int(the result of the division, or 0 if denominator is zero)
 
 	// VectorSum
-	//  Description : Computes the sum of all elements in a vector and returns the total sum.
-	//  Example parameters : std::vector\ * vec(pointer to the vector of integers).
-	//  Return type : int(the sum of the vector elements)
+	// Description: Returns the sum of all elements in a vector.
+	static int VectorSum(std::vector<int>* vec)
+	{
+		if (vec == nullptr)
+		{
+			std::cout << "Invalid vector pointer.\n";
+			return 0;
+		}
+
+		int sum = 0;
+
+		for (int value : *vec)
+		{
+			sum += value;
+		}
+
+		return sum;
+	}
 
 }
 

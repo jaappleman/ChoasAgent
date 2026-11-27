@@ -1,10 +1,10 @@
 
 #include "Game.h"
 
-#include <iostream>
-#include <string>
 #include <cctype>
+#include <iostream>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "Researcher.h"
@@ -13,16 +13,127 @@
 #include "SecurityOfficer.h"
 #include "MedicalOfficer.h"
 
-int getMenuChoice();
+// ============================================================
+// Game.cpp
+// Purpose: Implements the main game loop, menu navigation,
+//          player interactions, staff management, anomaly
+//          maintenance, and facility upgrades.
+// ============================================================
 
+// ================= Internal Helper Functions ================
+
+namespace
+{
+    // Read and validate an integer menu choice.
+    int getMenuChoice()
+    {
+        std::string input;
+
+        if (!std::getline(std::cin, input))
+        {
+            return 10;
+        }
+
+        try
+        {
+            size_t position = 0;
+            int choice = std::stoi(input, &position);
+
+            while (position < input.length() &&
+                std::isspace(static_cast<unsigned char>(input[position])))
+            {
+                position++;
+            }
+
+            if (position != input.length())
+            {
+                return -1;
+            }
+
+            return choice;
+        }
+        catch (...)
+        {
+            return -1;
+        }
+    }
+}
+
+// ===================== Constructor ==========================
+
+// Initialize the game.
 Game::Game()
 {
     isRunning = true;
 }
 
+// ===================== Game Loop ============================
+
+// Run the main game loop.
+void Game::run()
+{
+    while (isRunning)
+    {
+        displayMainMenu();
+
+        int choice = getMenuChoice();
+
+        switch (choice)
+        {
+        case 1:
+            displayFacilityStatus();
+            break;
+
+        case 2:
+            displayAnomalyRegistry();
+            break;
+
+        case 3:
+            displayStaffRoster();
+            break;
+
+        case 4:
+            hireStaff();
+            break;
+
+        case 5:
+            dismissStaff();
+            break;
+
+        case 6:
+            performAnomalyMaintenance();
+            break;
+
+        case 7:
+            advanceDay();
+            break;
+
+        case 8:
+            manageFacilityUpgrades();
+            break;
+
+        case 9:
+            std::cout << "\nCampaign functionality is coming soon.\n";
+            break;
+
+        case 10:
+            isRunning = false;
+            std::cout << "\nShutting down facility systems...\n";
+            break;
+
+        default:
+            std::cout << "\nInvalid selection. Please try again.\n";
+            break;
+        }
+    }
+}
+
+// =================== Menu Functions =========================
+
+// Display the main game menu.
 void Game::displayMainMenu()
 {
-    std::cout << "\n========== ANOMALY//CONTAINMENT ==========\n";
+    std::cout << "\n========= anomaly//containment =========\n";
     std::cout << "1. View Facility Status\n";
     std::cout << "2. View Anomaly Registry\n";
     std::cout << "3. View Staff Roster\n";
@@ -30,27 +141,36 @@ void Game::displayMainMenu()
     std::cout << "5. Dismiss Staff\n";
     std::cout << "6. Perform Anomaly Maintenance\n";
     std::cout << "7. Advance Day\n";
-    std::cout << "8. Start Campaign (Coming Soon)\n";
-    std::cout << "9. Exit\n";
+    std::cout << "8. Facility Upgrades\n";
+    std::cout << "9. Start Campaign (Coming Soon)\n";
+    std::cout << "10. Exit\n";
     std::cout << "========================================\n";
     std::cout << "Select an option: ";
 }
 
+// ================= Facility Displays ========================
+
+// Display current facility statistics.
 void Game::displayFacilityStatus()
 {
     facility.displayStatus();
 }
 
+// Display the anomaly registry.
 void Game::displayAnomalyRegistry()
 {
     facility.displayAnomalies();
 }
 
+// Display the facility staff roster.
 void Game::displayStaffRoster()
 {
     facility.displayStaffRoster();
 }
 
+// ================= Anomaly Maintenance =======================
+
+// Allow the player to perform anomaly maintenance.
 void Game::performAnomalyMaintenance()
 {
     std::cout << "\n========== ANOMALY MAINTENANCE ==========\n";
@@ -88,6 +208,72 @@ void Game::performAnomalyMaintenance()
     facility.displayAnomalies();
 }
 
+// ================= Facility Upgrades ========================
+
+// Allow the player to view and initiate facility upgrades.
+void Game::manageFacilityUpgrades()
+{
+    const std::string upgradeNames[] =
+    {
+        "Power Infrastructure",
+        "Containment Systems",
+        "Facility Expansion",
+        "Research Laboratories"
+    };
+
+    std::cout << "\n========== FACILITY UPGRADES ==========\n";
+
+    // Display upgrade options and their requirements.
+    for (int i = 0; i < 4; i++)
+    {
+        std::cout << i + 1 << ". " << upgradeNames[i]
+            << " | Cost: " << facility.getUpgradeCost(i)
+            << " Credits | Staff: "
+            << facility.getUpgradeRequiredStaff(i)
+            << " | Duration: "
+            << facility.getUpgradeDuration(i)
+            << " Days\n";
+    }
+
+    std::cout << "5. Return to Main Menu\n";
+    std::cout << "====================================\n";
+
+    facility.displayFacilityUpgrades();
+
+    std::cout << "\nSelect an upgrade: ";
+    int choice = getMenuChoice();
+
+    if (choice == 5)
+    {
+        return;
+    }
+
+    if (choice < 1 || choice > 4)
+    {
+        std::cout << "\nInvalid upgrade selection.\n";
+        return;
+    }
+
+    int upgradeType = choice - 1;
+
+    if (facility.startFacilityUpgrade(upgradeType))
+    {
+        std::cout << "\nFacility upgrade project started successfully!\n";
+    }
+    else
+    {
+        std::cout << "\nUnable to start upgrade. Check credits, staff availability, "
+            "upgrade level, or active projects.\n";
+    }
+
+    facility.displayStatus();
+    facility.displayStaffRoster();
+    facility.displayFacilityUpgrades();
+}
+
+// ================= Daily Advancement ========================
+
+// Advance the facility by one in-game day.
 void Game::advanceDay()
 {
     std::cout << "\n========== ADVANCING DAY ==========\n";
@@ -103,6 +289,9 @@ void Game::advanceDay()
     facility.displayAnomalies();
 }
 
+// =================== Staff Management =======================
+
+// Allow the player to recruit a new staff member.
 void Game::hireStaff()
 {
     std::cout << "\n========== STAFF RECRUITMENT ==========\n";
@@ -169,6 +358,7 @@ void Game::hireStaff()
 
     std::unique_ptr<Staff> newStaff;
 
+    // Create the appropriate staff specialization.
     switch (choice)
     {
     case 1:
@@ -197,6 +387,7 @@ void Game::hireStaff()
         break;
     }
 
+    // Transfer ownership to the Facility if hiring succeeds.
     if (facility.hireStaff(std::move(newStaff)))
     {
         std::cout << "\nStaff member hired successfully!\n";
@@ -210,6 +401,7 @@ void Game::hireStaff()
     facility.displayStaffRoster();
 }
 
+// Allow the player to dismiss an available staff member.
 void Game::dismissStaff()
 {
     std::cout << "\n========== STAFF DISMISSAL ==========\n";
@@ -236,91 +428,4 @@ void Game::dismissStaff()
 
     facility.displayStatus();
     facility.displayStaffRoster();
-}
-
-int getMenuChoice()
-{
-    std::string input;
-
-    if (!std::getline(std::cin, input))
-    {
-        return 9;
-    }
-
-    try
-    {
-        size_t position = 0;
-        int choice = std::stoi(input, &position);
-
-        while (position < input.length() &&
-            std::isspace(static_cast<unsigned char>(input[position])))
-        {
-            position++;
-        }
-
-        if (position != input.length())
-        {
-            return -1;
-        }
-
-        return choice;
-    }
-    catch (...)
-    {
-        return -1;
-    }
-}
-
-void Game::run()
-{
-    while (isRunning)
-    {
-        displayMainMenu();
-
-        int choice = getMenuChoice();
-
-        switch (choice)
-        {
-        case 1:
-            displayFacilityStatus();
-            break;
-
-        case 2:
-            displayAnomalyRegistry();
-            break;
-
-        case 3:
-            displayStaffRoster();
-            break;
-
-        case 4:
-            hireStaff();
-            break;
-
-        case 5:
-            dismissStaff();
-            break;
-
-        case 6:
-            performAnomalyMaintenance();
-            break;
-
-        case 7:
-            advanceDay();
-            break;
-
-        case 8:
-            std::cout << "\nCampaign functionality is coming soon.\n";
-            break;
-
-        case 9:
-            isRunning = false;
-            std::cout << "\nShutting down facility systems...\n";
-            break;
-
-        default:
-            std::cout << "\nInvalid selection. Please try again.\n";
-            break;
-        }
-    }
 }

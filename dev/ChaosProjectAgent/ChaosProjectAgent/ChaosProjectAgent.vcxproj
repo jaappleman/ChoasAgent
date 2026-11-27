@@ -143,6 +143,11 @@
     <ClCompile Include="Anomaly.cpp" />
     <ClCompile Include="ContainmentSpecialist.cpp" />
     <ClCompile Include="Facility.cpp" />
+    <ClCompile Include="FacilityOperations.cpp" />
+    <ClCompile Include="FacilityProject.cpp" />
+    <ClCompile Include="FacilityStaff.cpp" />
+    <ClCompile Include="FacilityUpgrade.cpp" />
+    <ClCompile Include="FacilityUpgradeManagement.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MedicalOfficer.cpp" />
@@ -150,18 +155,23 @@
     <ClCompile Include="SecurityOfficer.cpp" />
     <ClCompile Include="Staff.cpp" />
     <ClCompile Include="Technician.cpp" />
+    <ClCompile Include="Testing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Anomaly.h" />
     <ClInclude Include="ContainmentSpecialist.h" />
     <ClInclude Include="Facility.h" />
+    <ClInclude Include="FacilityProject.h" />
+    <ClInclude Include="FacilityUpgrade.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="MedicalOfficer.h" />
     <ClInclude Include="Researcher.h" />
     <ClInclude Include="SecurityOfficer.h" />
     <ClInclude Include="Staff.h" />
+    <ClInclude Include="Subject.h" />
     <ClInclude Include="Technician.h" />
+    <ClInclude Include="Testing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
